@@ -1,0 +1,134 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux8Way16.hdl
+
+/**
+ * 8-way 16-bit multiplexor.
+ * out = a if sel==000
+ *       b if sel==001
+ *       etc.
+ *       h if sel==111
+ */
+
+CHIP Mux8Way16 {
+    IN a[16], b[16], c[16], d[16],
+       e[16], f[16], g[16], h[16],
+       sel[3];
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+Mux(a=a[0],b=b[0],sel=sel[0],out=t00);
+Mux(a=c[0],b=d[0],sel=sel[0],out=t10);
+Mux(a=e[0],b=f[0],sel=sel[0],out=t20);
+Mux(a=g[0],b=h[0],sel=sel[0],out=t30);
+Mux(a=t00,b=t10,sel=sel[1],out=m00);
+Mux(a=t20,b=t30,sel=sel[1],out=m10);
+Mux(a=m00,b=m10,sel=sel[2],out=out[0]);
+Mux(a=a[1],b=b[1],sel=sel[0],out=t01);
+Mux(a=c[1],b=d[1],sel=sel[0],out=t11);
+Mux(a=e[1],b=f[1],sel=sel[0],out=t21);
+Mux(a=g[1],b=h[1],sel=sel[0],out=t31);
+Mux(a=t01,b=t11,sel=sel[1],out=m01);
+Mux(a=t21,b=t31,sel=sel[1],out=m11);
+Mux(a=m01,b=m11,sel=sel[2],out=out[1]);
+Mux(a=a[2],b=b[2],sel=sel[0],out=t02);
+Mux(a=c[2],b=d[2],sel=sel[0],out=t12);
+Mux(a=e[2],b=f[2],sel=sel[0],out=t22);
+Mux(a=g[2],b=h[2],sel=sel[0],out=t32);
+Mux(a=t02,b=t12,sel=sel[1],out=m02);
+Mux(a=t22,b=t32,sel=sel[1],out=m12);
+Mux(a=m02,b=m12,sel=sel[2],out=out[2]);
+Mux(a=a[3],b=b[3],sel=sel[0],out=t03);
+Mux(a=c[3],b=d[3],sel=sel[0],out=t13);
+Mux(a=e[3],b=f[3],sel=sel[0],out=t23);
+Mux(a=g[3],b=h[3],sel=sel[0],out=t33);
+Mux(a=t03,b=t13,sel=sel[1],out=m03);
+Mux(a=t23,b=t33,sel=sel[1],out=m13);
+Mux(a=m03,b=m13,sel=sel[2],out=out[3]);
+Mux(a=a[4],b=b[4],sel=sel[0],out=t04);
+Mux(a=c[4],b=d[4],sel=sel[0],out=t14);
+Mux(a=e[4],b=f[4],sel=sel[0],out=t24);
+Mux(a=g[4],b=h[4],sel=sel[0],out=t34);
+Mux(a=t04,b=t14,sel=sel[1],out=m04);
+Mux(a=t24,b=t34,sel=sel[1],out=m14);
+Mux(a=m04,b=m14,sel=sel[2],out=out[4]);
+Mux(a=a[5],b=b[5],sel=sel[0],out=t05);
+Mux(a=c[5],b=d[5],sel=sel[0],out=t15);
+Mux(a=e[5],b=f[5],sel=sel[0],out=t25);
+Mux(a=g[5],b=h[5],sel=sel[0],out=t35);
+Mux(a=t05,b=t15,sel=sel[1],out=m05);
+Mux(a=t25,b=t35,sel=sel[1],out=m15);
+Mux(a=m05,b=m15,sel=sel[2],out=out[5]);
+Mux(a=a[6],b=b[6],sel=sel[0],out=t06);
+Mux(a=c[6],b=d[6],sel=sel[0],out=t16);
+Mux(a=e[6],b=f[6],sel=sel[0],out=t26);
+Mux(a=g[6],b=h[6],sel=sel[0],out=t36);
+Mux(a=t06,b=t16,sel=sel[1],out=m06);
+Mux(a=t26,b=t36,sel=sel[1],out=m16);
+Mux(a=m06,b=m16,sel=sel[2],out=out[6]);
+Mux(a=a[7],b=b[7],sel=sel[0],out=t07);
+Mux(a=c[7],b=d[7],sel=sel[0],out=t17);
+Mux(a=e[7],b=f[7],sel=sel[0],out=t27);
+Mux(a=g[7],b=h[7],sel=sel[0],out=t37);
+Mux(a=t07,b=t17,sel=sel[1],out=m07);
+Mux(a=t27,b=t37,sel=sel[1],out=m17);
+Mux(a=m07,b=m17,sel=sel[2],out=out[7]);
+Mux(a=a[8],b=b[8],sel=sel[0],out=t08);
+Mux(a=c[8],b=d[8],sel=sel[0],out=t18);
+Mux(a=e[8],b=f[8],sel=sel[0],out=t28);
+Mux(a=g[8],b=h[8],sel=sel[0],out=t38);
+Mux(a=t08,b=t18,sel=sel[1],out=m08);
+Mux(a=t28,b=t38,sel=sel[1],out=m18);
+Mux(a=m08,b=m18,sel=sel[2],out=out[8]);
+Mux(a=a[9],b=b[9],sel=sel[0],out=t09);
+Mux(a=c[9],b=d[9],sel=sel[0],out=t19);
+Mux(a=e[9],b=f[9],sel=sel[0],out=t29);
+Mux(a=g[9],b=h[9],sel=sel[0],out=t39);
+Mux(a=t09,b=t19,sel=sel[1],out=m09);
+Mux(a=t29,b=t39,sel=sel[1],out=m19);
+Mux(a=m09,b=m19,sel=sel[2],out=out[9]);
+Mux(a=a[10],b=b[10],sel=sel[0],out=t010);
+Mux(a=c[10],b=d[10],sel=sel[0],out=t110);
+Mux(a=e[10],b=f[10],sel=sel[0],out=t210);
+Mux(a=g[10],b=h[10],sel=sel[0],out=t310);
+Mux(a=t010,b=t110,sel=sel[1],out=m010);
+Mux(a=t210,b=t310,sel=sel[1],out=m110);
+Mux(a=m010,b=m110,sel=sel[2],out=out[10]);
+Mux(a=a[11],b=b[11],sel=sel[0],out=t011);
+Mux(a=c[11],b=d[11],sel=sel[0],out=t111);
+Mux(a=e[11],b=f[11],sel=sel[0],out=t211);
+Mux(a=g[11],b=h[11],sel=sel[0],out=t311);
+Mux(a=t011,b=t111,sel=sel[1],out=m011);
+Mux(a=t211,b=t311,sel=sel[1],out=m111);
+Mux(a=m011,b=m111,sel=sel[2],out=out[11]);
+Mux(a=a[12],b=b[12],sel=sel[0],out=t012);
+Mux(a=c[12],b=d[12],sel=sel[0],out=t112);
+Mux(a=e[12],b=f[12],sel=sel[0],out=t212);
+Mux(a=g[12],b=h[12],sel=sel[0],out=t312);
+Mux(a=t012,b=t112,sel=sel[1],out=m012);
+Mux(a=t212,b=t312,sel=sel[1],out=m112);
+Mux(a=m012,b=m112,sel=sel[2],out=out[12]);
+Mux(a=a[13],b=b[13],sel=sel[0],out=t013);
+Mux(a=c[13],b=d[13],sel=sel[0],out=t113);
+Mux(a=e[13],b=f[13],sel=sel[0],out=t213);
+Mux(a=g[13],b=h[13],sel=sel[0],out=t313);
+Mux(a=t013,b=t113,sel=sel[1],out=m013);
+Mux(a=t213,b=t313,sel=sel[1],out=m113);
+Mux(a=m013,b=m113,sel=sel[2],out=out[13]);
+Mux(a=a[14],b=b[14],sel=sel[0],out=t014);
+Mux(a=c[14],b=d[14],sel=sel[0],out=t114);
+Mux(a=e[14],b=f[14],sel=sel[0],out=t214);
+Mux(a=g[14],b=h[14],sel=sel[0],out=t314);
+Mux(a=t014,b=t114,sel=sel[1],out=m014);
+Mux(a=t214,b=t314,sel=sel[1],out=m114);
+Mux(a=m014,b=m114,sel=sel[2],out=out[14]);
+Mux(a=a[15],b=b[15],sel=sel[0],out=t015);
+Mux(a=c[15],b=d[15],sel=sel[0],out=t115);
+Mux(a=e[15],b=f[15],sel=sel[0],out=t215);
+Mux(a=g[15],b=h[15],sel=sel[0],out=t315);
+Mux(a=t015,b=t115,sel=sel[1],out=m015);
+Mux(a=t215,b=t315,sel=sel[1],out=m115);
+Mux(a=m015,b=m115,sel=sel[2],out=out[15]);
+}

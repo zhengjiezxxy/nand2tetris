@@ -1,0 +1,50 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/Register.hdl
+
+/**
+ * 16-bit register.
+ * If load[t]=1 then out[t+1] = in[t]
+ * else out does not change
+ */
+
+CHIP Register {
+    IN in[16], load;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+Mux(a=outd0,b=in[0],sel=load,out=outm0);
+DFF(in=outm0,out=out[0],out=outd0);
+Mux(a=outd1,b=in[1],sel=load,out=outm1);
+DFF(in=outm1,out=out[1],out=outd1);
+Mux(a=outd2,b=in[2],sel=load,out=outm2);
+DFF(in=outm2,out=out[2],out=outd2);
+Mux(a=outd3,b=in[3],sel=load,out=outm3);
+DFF(in=outm3,out=out[3],out=outd3);
+Mux(a=outd4,b=in[4],sel=load,out=outm4);
+DFF(in=outm4,out=out[4],out=outd4);
+Mux(a=outd5,b=in[5],sel=load,out=outm5);
+DFF(in=outm5,out=out[5],out=outd5);
+Mux(a=outd6,b=in[6],sel=load,out=outm6);
+DFF(in=outm6,out=out[6],out=outd6);
+Mux(a=outd7,b=in[7],sel=load,out=outm7);
+DFF(in=outm7,out=out[7],out=outd7);
+Mux(a=outd8,b=in[8],sel=load,out=outm8);
+DFF(in=outm8,out=out[8],out=outd8);
+Mux(a=outd9,b=in[9],sel=load,out=outm9);
+DFF(in=outm9,out=out[9],out=outd9);
+Mux(a=outd10,b=in[10],sel=load,out=outm10);
+DFF(in=outm10,out=out[10],out=outd10);
+Mux(a=outd11,b=in[11],sel=load,out=outm11);
+DFF(in=outm11,out=out[11],out=outd11);
+Mux(a=outd12,b=in[12],sel=load,out=outm12);
+DFF(in=outm12,out=out[12],out=outd12);
+Mux(a=outd13,b=in[13],sel=load,out=outm13);
+DFF(in=outm13,out=out[13],out=outd13);
+Mux(a=outd14,b=in[14],sel=load,out=outm14);
+DFF(in=outm14,out=out[14],out=outd14);
+Mux(a=outd15,b=in[15],sel=load,out=outm15);
+DFF(in=outm15,out=out[15],out=outd15);
+}

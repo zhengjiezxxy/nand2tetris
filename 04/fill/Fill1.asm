@@ -1,0 +1,50 @@
+(LOOP)
+    @8192
+    D=A
+    @i
+    M=D
+    @KBD
+    D=M
+    @FILL
+    D;JNE
+    @CLEAR
+    D;JEQ
+    @LOOP
+    0;JMP
+
+(FILL)
+    @SCREEN
+    D=M
+    @LOOP
+    D;JNE
+    @i
+    M=M-1
+    @SCREEN
+    D=A
+    @i
+    D=D+M
+    @R0
+    M=D
+    @0
+    D=!A
+    @R0
+    A=M
+    M=D
+    @FILL
+    0;JMP
+
+
+(CLEAR)
+    @SCREEN
+    D=M
+    @LOOP
+    D;JEQ
+    @i
+    M=M-1
+    @SCREEN
+    D=A
+    @i
+    A=D+M
+    M=0
+    @CLEAR
+    0;JMP

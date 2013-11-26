@@ -1,0 +1,4 @@
+This assembler project is a implementation of nandteris assmebler.
+There are four module:main,parser,symbol table and code. 
+The main module initiates the symtable, preprocesses the input to delete comment and add symbol into symbol table. Then at the second pass, line by line, translate every symbol to some field of binary code.
+
