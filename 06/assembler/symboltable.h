@@ -6,9 +6,9 @@ using namespace std;
 
 Class SymTable{
 pulic:
-	Symtable();
-	Symtable(FIle file);  //initialize the symtable using a txt file
-	~Symtable();
+	SymTable();
+	init();  //initialize the symtable using a txt file
+	~SymTable();
 	add(pair<String,int> entry);	// add an entry into the symboltable
 	value(String s);  // return the value of key s
 }

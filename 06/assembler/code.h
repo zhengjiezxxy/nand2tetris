@@ -5,7 +5,7 @@
 Class Code{
 public:
 	Code();
-	Code(File file);  //establish four hash table from file
+	init();  //establish four hash table from file
 	~Code();
 	String dest(String s);
 	String jmp(Stirng  s);

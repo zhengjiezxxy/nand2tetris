@@ -3,8 +3,6 @@
 
 #include <iostream>
 
-
-
 Parser::Parser(){}
 
 Parser::Parser(ifstream ifs):m_ifs(ifs){}
@@ -14,11 +12,12 @@ Parser::hasNext(){
 }
 
 Parser::advance(){
-	m_ifs >> m_rawString;
-	if(*m_rawString=="\n" ||(*m_rawString++=="/" && \
+	m_ifs.getline(m_rawString,1024);
+	if(*m_rawString=="\n" ||(*m_rawString =="/" && \
 		*(m_rawString+1)=="/")){
 		advance();
 	}
+	analyze();
 		
 }
 
@@ -60,34 +59,27 @@ string address(){
 
 void analyze(){
 	char * tmp = m_rawString;
-	if(ACom){
+	if(ACom()){
 		tmp++;
 		while(*tmp != '\0'){
 			m_address+=*tmp++;
 		}
 	}
 
-	if(CCom){
-		while(*tmp != "="){
+	if(CCom()){
+		while(*tmp != '='){
 			m_dest += *tmp++;
 		}
 		tmp++;
-		while(*tmp != ";"){
+		while(*tmp != ';'){
 			m_comp += *tmp++;
 		}
 		tmp++;
-		while(*tmp != "\b"){
+		while(*tmp != '\b'){
 			m_comp += *tmp++;
 		}
 	}
+}
 
 //TODO LCom
 
-			
-	
-
-
-	
-	
-	
-	
