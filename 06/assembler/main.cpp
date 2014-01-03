@@ -10,7 +10,7 @@ int main(int argc, String[] argv){
 	ifs.open(argv[1],std::ifstream::in);
 	ofs.open(argv[2],std::ifstream::app);
 	
-	Parser parser = new Parser(ifs_in);
+	Parser parser = new Parser(ifs);
 	Code code = new Code();
 	
 	while(parser.hasNext()){
