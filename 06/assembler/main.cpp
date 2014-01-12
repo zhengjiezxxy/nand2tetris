@@ -2,25 +2,31 @@
 //Author: Jack Chin
 //Date: 25/11/2013
 
-#include <fstream.h>
+#include <fstream>
+#include <string>
+#include "code.h"
+#include "parser.h"
+using namespace std;
 
-int main(int argc, String[] argv){
+int main(int argc, char* argv[]){
 	ifstream ifs;
 	ofstream ofs;
-	ifs.open(argv[1],std::ifstream::in);
 	ofs.open(argv[2],std::ifstream::app);
 	
-	Parser parser = new Parser(ifs);
-	Code code = new Code();
+	Parser parser;
+	parser.m_ifs.open(argv[1],std::ifstream::in);
+	Code code ;
 	
-	while(parser.hasNext()){
-		parser.advance();
-		switch(parser.type()){
+	while(parser.HasNext()){
+		parser.Advance();
+		switch(parser.Type()){
+			case 0 :
+				ofs << "0"<< code.Addr(parser.Addr()) << std::endl;
+				break;
 			case 1 :
-				ofs << code.address(parser.address()) << std::endl;
-			case 2 :
-				ofs << code.dest(parser.dest())+code.comp(parser.comp()) \
-						+code.jmp(code.jmp())+\n" << std::endl;
+				ofs <<"111" <<  code.Comp(parser.Comp())+code.Dest(parser.Dest()) \
+						+code.Jmp(parser.Jmp()) << std::endl;
+				break;
 		}
 	}
 }
