@@ -2,14 +2,27 @@
 //Author: Jack Chin
 //Date: 25/11/2013
 
+#include <string>
+#include <vector>
+#include <map>
+#ifndef CODE_H
+	#include "code.h"
+#endif
+#include <cstdbool>
 using namespace std;
 
-Class SymTable{
-pulic:
+class SymTable{
+public:
 	SymTable();
-	init();  //initialize the symtable using a txt file
 	~SymTable();
-	add(pair<String,int> entry);	// add an entry into the symboltable
-	value(String s);  // return the value of key s
-}
+	void Init();  // init predefined symbols
+	void Add(string entry);	// add an entry into the symboltable
+	void AddSym(string entry, int instadd);  //
+	string Value(string key);  // return the value of key s
+	bool Exist(string key); // is the key exist?
+
+protected:
+	map<string,int > m_mEntry; 
+	int m_addr;  // memory address allocated so far
+};
 	

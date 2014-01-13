@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <cctype>
+#define CODE_H 1
 using namespace std;
 
 class Code{
@@ -22,5 +24,5 @@ public:
 	void Tab2Space(string s); // helper function
 	std::vector<string> Split(string s); // split a string into parts by space(std::isspace())
 	string Str(char* c);  //helper function for debugging
-	string DecToBin(unsigned long l); // convert decimal to binary string
+	static string DecToBin(unsigned long l); // convert decimal to binary string
 };

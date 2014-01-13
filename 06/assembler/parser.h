@@ -4,6 +4,8 @@
 
 #include <string>
 #include <fstream>
+#include <algorithm>
+#include <cctype>
 using namespace std;
 
 class Parser{
@@ -16,10 +18,12 @@ public:
 	bool ACom();      //if this command a A type command?
 	bool CCom();	  //if this command a C type command?
 	bool LCom(); 	  //if this command a Label?
+	bool ASym();     // if A command has defined a new symbol
 	void Advance();		  //advance to next setence if there is another command.
 	string Dest();	  //return the dest string
 	string Comp();	  //return the compare string
 	string Jmp();	  //return the jump string
+	string Sym();    //return the symbols
 
 	string Addr(); //return address string of A type command
 
@@ -30,6 +34,8 @@ public:
 	string m_jmp;
 	string m_address;
 	void analyze();
+	string m_sym;  // symbol
+	int m_line;  //instruction address = line number
 
 public:
 	ifstream m_ifs;  // source code input stream

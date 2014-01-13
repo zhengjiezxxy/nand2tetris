@@ -72,7 +72,7 @@ vector<string> Code::Split(string s)
 string Code::Dest(string s)
 {
 	if(s == "")
-	return "";
+	return m_MapDest["NUL"];
 	return m_MapDest[s];
 }
 
@@ -94,8 +94,18 @@ string Code::Comp(string s)
 
 string Code::Addr(string s)
 {
-	unsigned long ul;
+	unsigned long ul=0;
 	string bs; //binary string
+	int n = s.size();
+	bool digit=1;
+	for(int i=0;i<n;++i)
+	{
+		if(!isdigit(s[i]))
+			digit = 0;
+			break;
+	}
+	
+	if(digit&&n!=0)   //  prevent stoul collapse at alpha number
 	ul = stoul(s);  // convert sting to unsigned long
 	bs = DecToBin(ul);
 	return bs;
