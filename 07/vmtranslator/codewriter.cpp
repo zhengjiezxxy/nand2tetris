@@ -3,13 +3,15 @@
 
 #include "codewriter.h"
 
-CodeWriter::CodeWriter(ofstream ofs)
+CodeWriter::CodeWriter()
 {
+  m_truetag = 0;
+  m_endtag = 0;
 	//initialization of SP
-	ofs << "@2047" << endl;  //SP->256
-	ofs << "D=A" << endl;
-	ofs << "@0" << endl;
-	ofs << "M=D" << endl;
+	m_ofs << "@2047" << endl;  //SP->256
+	m_ofs << "D=A" << endl;
+	m_ofs << "@0" << endl;
+	m_ofs << "M=D" << endl;
 }
 
 CodeWriter::~CodeWriter()
@@ -21,79 +23,150 @@ void CodeWriter::WriteCom(trivec tvec)
 	m_sArg1 = tvec.second.first;
 	m_sArg2 = tvec.second.second;
 
-	switch(m_sCom)
-	{
-		case "push" :
-			switch (m_sArg1)
-			{
-				case "constant" :
+		if(m_sCom ==  "push") 
+    {
+				if(m_sArg1 == "constant") 
 				{
-					ofs << "@" << m_sArg2 << endl;
-					ofs << "D=M" << endl;
-					ofs << "@" << SP << endl;
-					ofs << "M=D" << endl;
+          // @2
+          // D=A
+          // @SP
+          // A=M
+          // M=D   (*sp) = 2
+          // @SP
+          // M=M-1 (sp = sp-1)
+					m_ofs << "@" << m_sArg2 << endl;
+					m_ofs << "D=A" << endl;
+					m_ofs << "@" << SP << endl;
+          m_ofs << "A=M" << endl;
+					m_ofs << "M=D" << endl;
+          m_ofs << "@SP" << endl;
+          m_ofs << "M=M-1" << endl;
 				}
-				case "static" :
+        else if(m_sArg1 ==  "static") 
 				{
 					if(IsNum(m_sArg2))
-						ofs << "@" << STATIC+stol(m_sArg2) << endl;
+						m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
 					else
 						cout << "push a symbol address of static segment" << endl;
-					ofs << "D=M" << endl;
-					ofs << "@" << SP << endl;
-					ofs << "M=D" << endl;
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << SP << endl;
+					m_ofs << "M=D" << endl;
 				}
 
-//				case "local" :
-//				{
-//					//@LCL
-//					//D=A
-//					//AD=D+2
-//					//D=M
-//					//@SP
-//					//M=D
-//					ofs << "@" << "LCL"  << endl;
-//					ofs << "D=A" << endl;
-//
-//					if(IsNum(m_sArg2)
-//						ofs << "AD=D+" << stol(m_sArg2) << endl;
-//					else
-//						cout << "push a symbol address of local,temp,argument
-//									segment" << endl;
-//
-//					ofs << "D=M" << endl;
-//					ofs << "@" << SP << endl;
-//					ofs << "M=D" << endl;
-//				}
-				
-//				case "argument" :
-//				{				
-//					//@LCL
-//					//D=A
-//					//AD=D+2
-//					//D=M
-//					//@SP
-//					//M=D
-//
-//					ofs << "@" << "ARG" << endl;
-//					ofs << "D=A" << endl;
-//
-//					if(IsNum(m_sArg2)
-//						ofs << "AD=D+" << stol(m_sArg2) << endl;
-//					else
-//						cout << "push a symbol address of local,temp,argument
-//									segment" << endl;
-//
-//					ofs << "D=M" << endl;
-//					ofs << "@" << SP << endl;
-//					ofs << "M=D" << endl;
-//				}
-			} //switch(m_Arg1)
-
-			case "pop" :
-				switch(m_sArg1)
+        else if( m_sArg1 == "local")
 				{
-					case "static" :  // pop static 1
+					//@LCL  (push local 2)
+					//A=M
+					//A=A+1
+          //A=A+1  //DO IT TWICE
+					//D=M
+					//@SP
+					//A=M
+          //M=D
+					m_ofs << "@" << "LCL"  << endl;
+					m_ofs << "A=M" << endl;
+
+					if(IsNum(m_sArg2))
+            {
+              int n = stol(m_sArg2);
+              for(int i=0;i<n;++i)
+                m_ofs << "A=A+1" << endl;
+            }
+					else
+						cout << "push a symbol address of local,temp,argument segment" << endl;
+
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << SP << endl;
+          m_ofs << "A=M" << endl;
+					m_ofs << "M=D" << endl;
+				}
+				
+        else if(m_sArg1 == "argument" )
+				{				
+					//@ARG  (push argument 2)
+					//A=M
+					//A=A+1
+          //A=A+1  //DO IT TWICE
+					//D=M
+					//@SP
+					//A=M
+          //M=D
+					m_ofs << "@" << "ARG"  << endl;
+					m_ofs << "A=M" << endl;
+
+					if(IsNum(m_sArg2))
+            {
+              int n = stol(m_sArg2);
+              for(int i=0;i<n;++i)
+                m_ofs << "A=A+1" << endl;
+            }
+					else
+						cout << "push a symbol address of local,temp,argument segment" << endl;
+
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << SP << endl;
+          m_ofs << "A=M" << endl;
+					m_ofs << "M=D" << endl;
+      }
+      else if (m_sArg1 == "this")
+      {
+      //@ARG  (push argument 2)
+					//A=M
+					//A=A+1
+          //A=A+1  //DO IT TWICE
+					//D=M
+					//@SP
+					//A=M
+          //M=D
+					m_ofs << "@" << "THIS"  << endl;
+					m_ofs << "A=M" << endl;
+
+					if(IsNum(m_sArg2))
+            {
+              int n = stol(m_sArg2);
+              for(int i=0;i<n;++i)
+                m_ofs << "A=A+1" << endl;
+            }
+					else
+						cout << "push a symbol address of local,temp,argument segment" << endl;
+
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << SP << endl;
+          m_ofs << "A=M" << endl;
+					m_ofs << "M=D" << endl;
+}
+      else if (m_sArg1 == "that" )
+      {
+          //@THAT  (push argument 2)
+					//A=M
+					//A=A+1
+          //A=A+1  //DO IT TWICE
+					//D=M
+					//@SP
+					//A=M
+          //M=D
+					m_ofs << "@" << "THAT"  << endl;
+					m_ofs << "A=M" << endl;
+
+					if(IsNum(m_sArg2))
+            {
+              int n = stol(m_sArg2);
+              for(int i=0;i<n;++i)
+                m_ofs << "A=A+1" << endl;
+            }
+					else
+						cout << "push a symbol address of local,temp,argument segment" << endl;
+
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << SP << endl;
+          m_ofs << "A=M" << endl;
+					m_ofs << "M=D" << endl;
+}
+    } //switch(m_Arg1)
+
+    else if(m_sCom == "pop") 
+    {
+					if(m_sArg1 == "static")  // pop static 1
 					{
 						// @SP
 						// D=M
@@ -102,20 +175,19 @@ void CodeWriter::WriteCom(trivec tvec)
 						// D=D-1 stack pointer deccrement
 						// @SP
 						// M=D
-						if(IsNum(m_sArg2)
-							ofs << "@SP" << endl;
-							ofs << "D=M" << endl;
-							if(IsNum(m_sArg2)
-								ofs << "@" << STATIC + stol(m_sArg2) << endl;
+              m_ofs << "@SP" << endl;
+							m_ofs << "D=M" << endl;
+							if(IsNum(m_sArg2))
+								m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
 							else
 								cout << "pop a symbol address" << endl;
-							ofs << "M=D" << endl;
-							ofs << "D=D-1" << endl;
-							ofs << "@SP" << endl;
-							ofs << "M=D" << endl;
+							m_ofs << "M=D" << endl;
+							m_ofs << "D=D-1" << endl;
+							m_ofs << "@SP" << endl;
+							m_ofs << "M=D" << endl;
 					}
 
-					case "constant" :
+          else if(m_sArg1 == "constant")
 					{
 						// pop constant 2
 						// @SP
@@ -123,22 +195,371 @@ void CodeWriter::WriteCom(trivec tvec)
 						// D=D-1
 						// @SP
 						// M=D
-						ofs << "@SP" << endl;
-						ofs << "D=M" << endl;
-						ofs << "D=D-1" << endl;
-						ofs << "@SP" << endl;
-						ofs << "M=D" << endl;
+						m_ofs << "@SP" << endl;
+						m_ofs << "D=M" << endl;
+						m_ofs << "D=D-1" << endl;
+						m_ofs << "@SP" << endl;
+						m_ofs << "M=D" << endl;
 					}
 
-					//case  "local" :
-					//{
+          else if( m_sArg1 ==  "local")
+					{
 						// pop local 2
-						// 
-				//}
-			}// switch(m_sArg1)
-		}//switch(m_sCom)
+						// @SP
+            // A=M
+            // A=A+1
+            // D=M
+            // @LCL
+            // A=M
+            // A=A+1
+            // A=A+1  //twice
+            // M=D
+					m_ofs << "@" << "ARG"  << endl;
+					m_ofs << "A=M" << endl;
+
+					if(IsNum(m_sArg2))
+            {
+              int n = stol(m_sArg2);
+              for(int i=0;i<n;++i)
+                m_ofs << "A=A+1" << endl;
+            }
+					else
+						cout << "push a symbol address of local,temp,argument segment" << endl;
+
+					m_ofs << "D=M" << endl;
+					m_ofs << "@" << "SP" << endl;
+          m_ofs << "a=m" << endl;
+					m_ofs << "m=d" << endl;
+//
+				  }
+			}// (pop)
+    else if(m_sCom == "add")
+    {
+      //@SP
+      //A=M
+      //A=A+1
+      //D=M    get mem(stackpointer)
+      //A=A+1
+      //D=D+M  add *sp+*(sp+1)
+      //M=D    save into *(sp+1)
+      //@SP
+      //M=M+1  sp = sp +1
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=D+M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+    }
+    else if(m_sCom == "sub")
+    {
+      //@SP
+      //A=M
+      //A=A+1  (SP -> first unallocated mem)
+      //D=M    get mem(stackpointer)
+      //A=A+1
+      //D=M-D  sub *(sp+1)-*(sp)
+      //M=D    save into *(sp+1)
+      //@SP
+      //M=M+1  sp = sp +1
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M-D" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+//
+    }
+    else if(m_sCom == "neg")
+    {
+      //@SP
+      //A=M
+      //A=A+1
+      //M=-M
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "M=-M" << endl;
+    }
+    else if(m_sCom == "eq")
+    {
+      // @SP
+      // A=M
+      // A=A+1
+      // D=M
+      // A=A+1
+      // D=M-D
+      // @TRUE100
+      // D;JEQ  //D=0;JUMP TRUE
+      // @SP
+      // M=M+1
+      // @SP
+      // M=M+1
+      // @0
+      // D=A  PUSH 0
+      // @SP
+      // M=D
+      // @SP
+      // M=M-1 
+      // @END100
+      // 0;JMP
+      // (TRUE100)
+      // @SP
+      // M=M+2
+      // @65535
+      // D=A  PUSH 1111 1111 1111 1111
+      // @SP
+      // M=M-1
+      // (END100)
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M-D" << endl;
+      m_ofs << "@TRUE" << m_truetag << endl;
+      m_ofs << "D;JEQ" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@0" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "@END" << m_endtag << endl;
+      m_ofs << "0;JMP" << endl;
+      m_ofs << "(TRUE" << m_truetag++ << ")" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@65535" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "(END" << m_endtag++ << ")" << endl;
+
+    } 
+    else if (m_sCom == "gt" )
+    {
+      // @SP
+      // A=M
+      // A=A+1
+      // D=M
+      // A=A+1
+      // D=M-D
+      // @TRUE100
+      // D;JGT  //D=0;JUMP TRUE
+      // @SP
+      // M=M+2 
+      // @0
+      // D=A  PUSH 0
+      // @SP
+      // M=D
+      // @SP
+      // M=M-1 
+      // @END100
+      // 0;JMP
+      // (TRUE100)
+      // @SP
+      // M=M+2
+      // @65535
+      // D=A  PUSH 1111 1111 1111 1111
+      // @SP
+      // M=M-1
+      // (END100)
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M-D" << endl;
+      m_ofs << "@TRUE" << m_truetag << endl;
+      m_ofs << "D;JGT" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@0" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "@END" << m_endtag << endl;
+      m_ofs << "0;JMP" << endl;
+      m_ofs << "(TRUE" << m_truetag++ << ")" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP"  << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@65535" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "(END" << m_endtag++ << ")" << endl;
+
+
+    }
+    else if (m_sCom == "lt" )
+    {
+      // @SP
+      // A=M
+      // A=A+1
+      // D=M
+      // A=A+1
+      // D=M-D
+      // @TRUE100
+      // D;JLT  //D=0;JUMP TRUE
+      // @SP
+      // M=M+2 
+      // @0
+      // D=A  PUSH 0
+      // @SP
+      // M=D
+      // @SP
+      // M=M-1 
+      // @END100
+      // 0;JMP
+      // (TRUE100)
+      // @SP
+      // M=M+2
+      // @65535
+      // D=A  PUSH 1111 1111 1111 1111
+      // @SP
+      // M=M-1
+      // (END100)
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M"  << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M-D" << endl;
+      m_ofs << "@TRUE" << m_truetag << endl;
+      m_ofs << "D;JLT" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@0" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "@END" << m_endtag << endl;
+      m_ofs << "0;JMP" << endl;
+      m_ofs << "(TRUE" << m_truetag++ << ")" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+      m_ofs << "@65535" << endl;
+      m_ofs << "D=A" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
+      m_ofs << "(END" << m_endtag++ << ")" << endl;
+    }
+    else if (m_sCom == "and")
+    {
+      //@SP
+      //A=M
+      //A=A+1  (SP -> first unallocated mem)
+      //D=M    get mem(stackpointer)
+      //A=A+1
+      //D=M-D  sub *(sp+1)-*(sp)
+      //M=D    save into *(sp+1)
+      //@SP
+      //M=M+1  sp = sp +1
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=D&M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+
+    }
+    else if (m_sCom == "or")
+    {
+      //@SP
+      //A=M
+      //A=A+1  (SP -> first unallocated mem)
+      //D=M    get mem(stackpointer)
+      //A=A+1
+      //D=M-D  sub *(sp+1)-*(sp)
+      //M=D    save into *(sp+1)
+      //@SP
+      //M=M+1  sp = sp +1
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "D=D|M" << endl;
+      m_ofs << "M=D" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M+1" << endl;
+    }
+    else if(m_sCom == "not")
+    {
+      //@SP
+      //A=M
+      //A=A+1
+      //M=!M
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "A=A+1" << endl;
+      m_ofs << "M=!M" << endl;
+    }
+
+
+
 	}// WriteCom
 			
 				
 
-	
+bool CodeWriter::IsNum(string s)
+{
+// Is this string a number string
+  int n = s.size();
+  for(int i=0;i<n;i++)
+  {
+    if(!isdigit(s[i]))
+      return false;
+  }
+  if(n == 0 )
+    return false;
+  return true;
+}
+
+void CodeWriter::Init()
+{
+	m_ofs << "@2047" << endl;  //SP->256
+	m_ofs << "D=A" << endl;
+	m_ofs << "@0" << endl;
+	m_ofs << "M=D" << endl;
+}

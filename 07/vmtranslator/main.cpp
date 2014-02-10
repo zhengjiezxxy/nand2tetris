@@ -1,7 +1,8 @@
 #include "./include/include.h"
 #include "codewriter.h"
+#ifndef PARSER_H
 #include "parser.h"
-
+#endif
 int main(int argc, char* argv[])
 {
 	string sourcefile,outfile;
@@ -21,18 +22,20 @@ int main(int argc, char* argv[])
 		outfile = t2;
 	}
 
+	Parser parser; //ifstream has move constructor since c++11, I have
+                 // g++ 4.6 only!
+	CodeWriter writer;
 
-	ifstream ifs(sourcefile.c_str(),std::ios_base::in);
-	ifstream ofs(outfile.c_str(),std::ios_base::out);
+	parser.m_ifs.open(sourcefile.c_str(),std::ios_base::in);
+  writer.m_ofs.open(outfile.c_str(),std::ios_base::out);
 
 	//initialization of parser and codewriter
-	Parser parser(ifs);
-	CodeWriter writer(ofs);
 
 
 	while(parser.HasNext())
 	{
-		writer.WriteCom(parser.Advance());
+    trivec tvec = parser.Advance();
+		writer.WriteCom(tvec);
 	}
 
 	return 0;

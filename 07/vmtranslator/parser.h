@@ -5,7 +5,7 @@ typedef	pair<string,pair<string,string> > trivec;
 class Parser
 {
 public:
-	Parser(ifstream ifs);
+	Parser();
 	~Parser();
 
 	//three element vector, the first one is the command

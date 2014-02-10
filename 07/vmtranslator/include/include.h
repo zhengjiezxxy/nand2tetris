@@ -5,4 +5,6 @@
 #include <cctype>
 #include <string>
 #include <set>
+#include <iterator>
+#include <sstream>
 using namespace std;
