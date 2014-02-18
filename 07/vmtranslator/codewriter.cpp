@@ -58,11 +58,11 @@ void CodeWriter::WriteCom(trivec tvec)
 					//@LCL  (push local 2)
 					//A=M
 					//A=A+1
-          //A=A+1  //DO IT TWICE
+          				//A=A+1  //DO IT TWICE
 					//D=M
 					//@SP
 					//A=M
-          //M=D
+          				//M=D
 					m_ofs << "@" << "LCL"  << endl;
 					m_ofs << "A=M" << endl;
 
