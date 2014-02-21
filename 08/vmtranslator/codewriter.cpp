@@ -27,39 +27,21 @@ void CodeWriter::WriteCom(trivec tvec)
           // M=D   (*sp) = 2
           // @SP
           // M=M+1 (sp = sp-1)
-					m_ofs << "@" << m_sArg2 << endl;
-					m_ofs << "D=A" << endl;
-					m_ofs << "@" << SP << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
-				}
+          bConst = true;
+          GetValueFromSegment();
+          PushToStack();
+        }
         else if(m_sArg1 ==  "static") 
 				{
-					if(IsNum(m_sArg2))
-						m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
-					else
-						cout << "push a symbol address of static segment" << endl;
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << SP << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bStatic = true;
+          GetValueFromSegment();
+          PushToStack();
 				}
         else if(m_sArg1 == "temp")
         {
-          if(IsNum(m_sArg2))
-						m_ofs << "@" <<TEMP(0) + stol(m_sArg2) << endl;
-					else
-						cout << "push a symbol address of static segment" << endl;
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << SP << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bTemp = true;
+          GetValueFromSegment();
+          PushToStack();
         }
 
         else if( m_sArg1 == "local")
@@ -74,24 +56,9 @@ void CodeWriter::WriteCom(trivec tvec)
           //M=D
           //@SP
           //M=M+1
-					m_ofs << "@" << "LCL"  << endl;
-					m_ofs << "A=M" << endl;
-
-					if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-                m_ofs << "A=A+1" << endl;
-            }
-					else
-						cout << "push a symbol address of local,temp,argument segment" << endl;
-
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << SP << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+            bArg = true;
+            GetValueFromSegment();
+	          PushToStack();
 				}
 				
         else if(m_sArg1 == "argument" )
@@ -106,24 +73,9 @@ void CodeWriter::WriteCom(trivec tvec)
           //M=D
           //@SP
           //M=M+1
-					m_ofs << "@" << "ARG"  << endl;
-					m_ofs << "A=M" << endl;
-
-					if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-                m_ofs << "A=A+1" << endl;
-            }
-					else
-						cout << "push a symbol address of local,temp,argument segment" << endl;
-
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << "SP" << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bArg = true;
+          GetValueFromSegment();
+          PushToStack();
       }
       else if (m_sArg1 == "this")
       {
@@ -137,24 +89,9 @@ void CodeWriter::WriteCom(trivec tvec)
           //M=D
           //@SP (SP = SP+1)
           //M=M+1
-					m_ofs << "@" << "THIS"  << endl;
-					m_ofs << "A=M" << endl;
-
-					if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-                m_ofs << "A=A+1" << endl;
-            }
-					else
-						cout << "push a symbol address of local,temp,argument segment" << endl;
-
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << "SP" << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bArg = true;
+          GetValueFromSegment();
+          PushToStack();
       }
       else if (m_sArg1 == "that" )
       {
@@ -168,43 +105,15 @@ void CodeWriter::WriteCom(trivec tvec)
           //M=D
           //@SP
           //M=M+1
-					m_ofs << "@" << "THAT"  << endl;
-					m_ofs << "A=M" << endl;
-
-					if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-                m_ofs << "A=A+1" << endl;
-            }
-					else
-						cout << "push a symbol address of local,temp,argument segment" << endl;
-
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << "SP" << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bArg = true;
+          GetValueFromSegment();
+          PushToStack();
     }
         else if (m_sArg1 == "pointer")    //it's different from other segements
         {
-        	m_ofs << "@" << "3"  << endl; //RAM[3] 
-					if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-                m_ofs << "A=A+1" << endl;
-            }
-					else
-						cout << "push a symbol address of local,temp,argument segment" << endl;
-
-					m_ofs << "D=M" << endl;
-					m_ofs << "@" << "SP" << endl;
-          m_ofs << "A=M" << endl;
-					m_ofs << "M=D" << endl;
-          m_ofs << "@SP" << endl;
-          m_ofs << "M=M+1" << endl;
+          bPointer = true;
+          GetValueFromSegment();
+          PushToStack();
         }
   } //switch(m_Arg1)
 
@@ -222,18 +131,11 @@ void CodeWriter::WriteCom(trivec tvec)
 						// M=D
             // @SP
             //  M=M-1
-              m_ofs << "@SP" << endl;
-              m_ofs << "A=M" << endl;
-              m_ofs << "A=A-1" << endl;
-							m_ofs << "D=M" << endl;
-							if(IsNum(m_sArg2))
-								m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
-							else
-								cout << "pop a symbol address" << endl;
-							m_ofs << "M=D" << endl;
-              m_ofs << "@SP" << endl;
-              m_ofs << "M=M-1" << endl;
-					}
+              GetFromStack();
+              bStatic = true;
+              GetValueFromSegment(true);
+              BackOneStep();
+            }
           else if (m_sArg1 == "temp")
           {
             // @SP
@@ -245,18 +147,10 @@ void CodeWriter::WriteCom(trivec tvec)
 						// M=D
             // @SP
             //  M=M-1
-              m_ofs << "@SP" << endl;
-              m_ofs << "A=M" << endl;
-              m_ofs << "A=A-1" << endl;
-							m_ofs << "D=M" << endl;
-							if(IsNum(m_sArg2))
-								m_ofs << "@" << TEMP(0) + stol(m_sArg2) << endl;
-							else
-								cout << "pop a symbol address" << endl;
-							m_ofs << "M=D" << endl;
-              m_ofs << "@SP" << endl;
-              m_ofs << "M=M-1" << endl;
-
+              GetFromStack();
+              bTemp = true;
+              GetValueFromSegment(true);
+              BackOneStep();
           }
 
           else if(m_sArg1 == "constant")
@@ -294,83 +188,31 @@ void CodeWriter::WriteCom(trivec tvec)
             // M=D
             // @SP
             // M=M-1
-            m_ofs << "@" << "SP"  << endl;
-            m_ofs << "A=M" << endl;
-            m_ofs << "A=A-1" << endl;
-            m_ofs << "D=M" << endl;
-            m_ofs << "@" << "LCL" << endl;
-            m_ofs << "A=M" << endl;
-            if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-              m_ofs << "A=A+1" << endl;
-            }
-            else
-                cout << "push a symbol address of local,temp,argument segment" << endl;
-            m_ofs << "M=D" << endl;
-            m_ofs << "@SP" << endl;
-            m_ofs << "M=M-1" << endl;
+            GetFromStack();
+            bArg = true;
+            GetValueFromSegment(true);
+            BackOneStep();
 				  }
 			    else if( m_sArg1 ==  "argument")
 					{
-            m_ofs << "@" << "SP"  << endl;
-            m_ofs << "A=M" << endl;
-            m_ofs << "A=A-1" << endl;
-            m_ofs << "D=M" << endl;
-            m_ofs << "@" << "ARG" << endl;
-            m_ofs << "A=M" << endl;
-            if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-              m_ofs << "A=A+1" << endl;
-            }
-            else
-                cout << "push a symbol address of local,temp,argument segment" << endl;
-            m_ofs << "M=D" << endl;
-            m_ofs << "@SP" << endl;
-            m_ofs << "M=M-1" << endl;
+            GetFromStack();
+            bArg = true;
+            GetValueFromSegment(true);
+            BackOneStep();
 				  }
           else if( m_sArg1 ==  "this")
 					{
-            m_ofs << "@" << "SP"  << endl;
-            m_ofs << "A=M" << endl;
-            m_ofs << "A=A-1" << endl;
-            m_ofs << "D=M" << endl;
-            m_ofs << "@" << "THIS" << endl;
-            m_ofs << "A=M" << endl;
-            if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-              m_ofs << "A=A+1" << endl;
-            }
-            else
-                cout << "push a symbol address of local,temp,argument segment" << endl;
-            m_ofs << "M=D" << endl;
-            m_ofs << "@SP" << endl;
-            m_ofs << "M=M-1" << endl;
+            GetFromStack();
+            bArg = true;
+            GetValueFromSegment(true);
+            BackOneStep();
 				  }
           else if( m_sArg1 ==  "that")
 					{
-            m_ofs << "@" << "SP"  << endl;
-            m_ofs << "A=M" << endl;
-            m_ofs << "A=A-1" << endl;
-            m_ofs << "D=M" << endl;
-            m_ofs << "@" << "THAT" << endl;
-            m_ofs << "A=M" << endl;
-            if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-              m_ofs << "A=A+1" << endl;
-            }
-            else
-                cout << "push a symbol address of local,temp,argument segment" << endl;
-            m_ofs << "M=D" << endl;
-            m_ofs << "@SP" << endl;
-            m_ofs << "M=M-1" << endl;
+            GetFromStack();
+            bArg = true;
+            GetValueFromSegment(true);
+            BackOneStep();
 				  }
           else if( m_sArg1 ==  "pointer")
 					{
@@ -386,22 +228,10 @@ void CodeWriter::WriteCom(trivec tvec)
             // M=D
             // @SP
             // M=M-1
-            m_ofs << "@" << "SP"  << endl;
-            m_ofs << "A=M" << endl;
-            m_ofs << "A=A-1" << endl;
-            m_ofs << "D=M" << endl;
-            m_ofs << "@" << "3" << endl;
-            if(IsNum(m_sArg2))
-            {
-              int n = stol(m_sArg2);
-              for(int i=0;i<n;++i)
-              m_ofs << "A=A+1" << endl;
-            }
-            else
-                cout << "push a symbol address of local,temp,argument segment" << endl;
-            m_ofs << "M=D" << endl;
-            m_ofs << "@SP" << endl;
-            m_ofs << "M=M-1" << endl;
+            GetFromStack();
+            bPointer = true;
+            GetValueFromSegment(true);
+            BackOneStep();
 				  }
 }// (pop)
     else if(m_sCom == "add")
@@ -729,6 +559,9 @@ void CodeWriter::WriteCom(trivec tvec)
       m_ofs << "A=M" << endl;
       m_ofs << "A=A-1" << endl;
       m_ofs << "D=M" << endl;
+      //pop comparator
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=M-1" << endl;
       m_ofs << "@" << m_sArg1 << endl;
       m_ofs << "D;JNE" << endl;
     }
@@ -756,6 +589,15 @@ bool CodeWriter::IsNum(string s)
 
 void CodeWriter::Init()
 {
+  bConst = false;
+  bArg = false;
+  bTemp = false;
+  bPointer = false;
+  bStatic = false;
+  m_mMacroSeg["local"] = "LCL";
+  m_mMacroSeg["this"] = "THIS";
+  m_mMacroSeg["that"] = "THAT";
+  m_mMacroSeg["argument"] = "ARG";
 	m_truetag = 0;
   m_endtag = 0;
   m_ofs << "@256" << endl;  //SP->256
@@ -763,3 +605,77 @@ void CodeWriter::Init()
 	m_ofs << "@0" << endl;
 	m_ofs << "M=D" << endl;
 }
+
+void CodeWriter::PushToStack()
+{
+  m_ofs << "@" << SP << endl;
+  m_ofs << "A=M" << endl;
+  m_ofs << "M=D" << endl;
+  m_ofs << "@SP" << endl;
+  m_ofs << "M=M+1" << endl;
+}
+
+void CodeWriter::GetFromStack()
+{
+  m_ofs << "@SP" << endl;
+  m_ofs << "A=M" << endl;
+  m_ofs << "A=A-1" << endl;
+  m_ofs << "D=M" << endl;
+}
+
+void CodeWriter::BackOneStep()
+{
+  m_ofs << "@SP" << endl;
+  m_ofs << "M=M-1" << endl;
+}
+
+void CodeWriter::GetValueFromSegment(bool reverse)
+{
+  if(IsNum(m_sArg2))
+  {
+    if(bConst)
+      m_ofs << "@" << stol(m_sArg2) << endl;
+    else if(bStatic)
+      m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
+    else if(bTemp)
+      m_ofs << "@" << TEMP(0) + stol(m_sArg2) << endl;
+    else if(bPointer)
+    {
+      m_ofs << "@" << "3"  << endl; //RAM[3] 
+      int n = stol(m_sArg2);
+      for(int i=0;i<n;++i)
+      m_ofs << "A=A+1" << endl;
+    }
+
+    else if(bArg)
+    {
+      m_ofs << "@" << m_mMacroSeg[m_sArg1]  << endl;
+      m_ofs << "A=M" << endl;
+      int n = stol(m_sArg2);
+      for(int i=0;i<n;++i)
+          m_ofs << "A=A+1" << endl;
+    
+    }
+  }
+  else
+    cout << "push a symbol address of static segment" << endl;
+  if(!reverse)
+  {
+    if(bConst)
+      m_ofs << "D=A" << endl;
+    else if(bStatic||bTemp||bArg||bPointer)
+      m_ofs << "D=M" << endl;
+  }
+  else
+  {
+    m_ofs << "M=D" << endl;
+  }
+
+  //restore all flags
+  bConst = false;
+  bStatic = false;
+  bTemp = false;
+  bArg = false;
+  bPointer = false;
+}
+

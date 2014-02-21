@@ -22,6 +22,15 @@ public:
 	~CodeWriter();
 
 	void WriteCom(trivec tvec);
+  //push num to stack ,excluding get the num
+  void PushToStack();
+  //get value from stack *(sp-1) not change *(SP)
+  void GetFromStack();
+  // push back stack pointer back one step
+  void BackOneStep();
+  //get value from segement, is the Segement const
+  //if reverse == true , put value onto segement
+  void GetValueFromSegment(bool reverse=false);
   bool IsNum(string s);
   void Init();
 
@@ -33,5 +42,11 @@ public:
   ofstream m_ofs;   // output stream
   int m_truetag;
   int m_endtag;
+  bool bConst;  // const segment
+  bool bStatic;  // static segment
+  bool bTemp;  // temp segment
+  bool bArg;
+  bool bPointer;
+  std::map<string,string> m_mMacroSeg; //map "this that argument local" segment to Macro name
 };
 

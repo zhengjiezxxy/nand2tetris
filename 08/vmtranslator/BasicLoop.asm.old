@@ -22,7 +22,7 @@ M=M-1
 @ARG
 A=M
 D=M
-@0
+@SP
 A=M
 M=D
 @SP
@@ -56,7 +56,7 @@ M=M-1
 @ARG
 A=M
 D=M
-@0
+@SP
 A=M
 M=D
 @SP
@@ -89,7 +89,7 @@ M=M-1
 @ARG
 A=M
 D=M
-@0
+@SP
 A=M
 M=D
 @SP

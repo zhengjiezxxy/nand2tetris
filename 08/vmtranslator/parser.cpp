@@ -34,7 +34,10 @@ trivec Parser::Advance()
 
 		//extract different command element from a line
 		vector<string> vec ;  //output vector container
-		istringstream iss(s);
+    //trim comment at the end
+    if(s.find("/") != std::string::npos)
+      s.erase(s.begin()+s.find_first_of("/"),s.end());
+    istringstream iss(s);
 		copy(istream_iterator<string>(iss),istream_iterator<string>(),back_inserter<vector<string> > (vec));
 		if(vec.size() == 2)
     {
