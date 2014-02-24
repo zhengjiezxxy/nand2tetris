@@ -7,4 +7,8 @@
 #include <set>
 #include <iterator>
 #include <sstream>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <cstdio>
+#include <cstdlib>
 using namespace std;
