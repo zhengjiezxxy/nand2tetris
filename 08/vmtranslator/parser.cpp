@@ -56,14 +56,8 @@ trivec Parser::Advance()
 		else
 		{
 			m_trivec.first = vec[0];  //command 
-
-			if(m_set.count(vec[1])>0)
-			{
-				m_trivec.second.first = vec[1];  //first argument
-				m_trivec.second.second = vec[2]; //second argument
-			}
-			else
-				m_trivec.second.second = vec[1];
+      m_trivec.second.first = vec[1];  //first argument
+      m_trivec.second.second = vec[2]; //second argument
 			break;
 		}
 

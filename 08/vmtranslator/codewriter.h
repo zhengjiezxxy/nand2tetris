@@ -42,6 +42,7 @@ public:
   ofstream m_ofs;   // output stream
   int m_truetag;
   int m_endtag;
+  int m_rettag; // return counter
   bool bConst;  // const segment
   bool bStatic;  // static segment
   bool bTemp;  // temp segment

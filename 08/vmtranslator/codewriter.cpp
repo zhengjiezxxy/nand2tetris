@@ -565,7 +565,170 @@ void CodeWriter::WriteCom(trivec tvec)
       m_ofs << "@" << m_sArg1 << endl;
       m_ofs << "D;JNE" << endl;
     }
-    //else if (m_sCom == "
+    else if (m_sCom == "call")
+    {
+      //push returnAddress
+      //@returnAddress100
+      //D=A  //(resemble to const segment)
+      //pushtostack();
+      m_ofs << "@RETURNADDRESS" << m_rettag  << endl;
+      m_ofs << "D=A" << endl;
+      PushToStack();
+      
+      //push LCL
+      //@LCL
+      //D=M  
+      //PUSHTOSTACK
+      m_ofs << "@LCL" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+
+      //push arg
+      m_ofs << "@ARG" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+       
+      //push this
+      m_ofs << "@THIS" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+      
+      //push that
+      m_ofs << "@THAT" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+
+      //Arg = SP-nArgs-5
+      //@SP
+      //D=M
+      //ARG = D(SP-1) - nArgs -4
+      //@SP
+      //D=M
+      //@4
+      //D=D-A
+      //@m_sArg2
+      //D=D-A
+      //PUSHTOSTACK
+      m_ofs << "@SP" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@5" << endl;
+      m_ofs << "D=D-A" << endl;
+      if(IsNum(m_sArg2))
+        m_ofs << "@" << std::stoi(m_sArg2) << endl;
+      else
+        std::cout << "second argument is not a number" << endl;
+      m_ofs << "D=D-A" << endl;
+      //push to lcl 
+      m_ofs << "@ARG" << endl;
+      m_ofs << "M=D" << endl;
+
+      //LCL = SP
+      m_ofs << "@SP" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@LCL" << endl;
+      m_ofs << "M=D" << endl;
+
+      //goto g
+      m_ofs << "@" << m_sArg1 << endl;
+      m_ofs << "0;JMP" << endl;
+
+      //returnAddress
+      m_ofs << "(RETURNADDRESS" << m_rettag++ << ")"<< endl;
+
+    }
+    else if( m_sCom == "function" )
+    {
+      //push 0 repeat nVars times
+      if(IsNum(m_sArg2))
+      {
+        m_ofs << "(" << m_sArg1 << ")" << endl;
+        int n = std::stoi(m_sArg2);
+            for(int i=0;i<n;++i)
+        {
+          m_ofs << "@0" << endl;
+          m_ofs << "D=A" << endl;
+          PushToStack();
+        }
+      }
+      else
+        std::cout << "second argument isn't a number" << endl ;
+    }
+    else if(m_sCom == "return")
+    {
+      //save return value
+      m_ofs << "@SP" << endl;
+      m_ofs << "A=M-1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs <<  "@R13" << endl;
+      m_ofs << "M=D" << endl;
+
+      //frame = LCL is a temp register
+      m_ofs << "@LCL" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@R14" << endl;
+      m_ofs << "M=D" << endl;
+
+      //retAddr = *(frame-5)
+      m_ofs << "@R14" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@5" << endl;
+      m_ofs << "A=D-A" <<endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@R15" << endl;
+      m_ofs << "M=D" << endl;
+
+      //*(arg0) = returnvalue
+      m_ofs << "@R13" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@ARG" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "M=D" << endl;
+
+      //SP = argument1
+      m_ofs << "@ARG" << endl;
+      m_ofs << "D=M+1" << endl;
+      m_ofs << "@SP" << endl;
+      m_ofs << "M=D" << endl;
+
+      //THAT = *(frame-1)
+      m_ofs << "@R14" << endl;
+      m_ofs << "A=M-1" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@THAT" << endl;
+      m_ofs << "M=D" << endl;
+
+      //THIS = *(frame-2)
+      m_ofs << "@R14" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@2" << endl;
+      m_ofs << "A=D-A" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@THIS" << endl;
+      m_ofs << "M=D" << endl;
+
+      //ARG= *(frame-3)
+      m_ofs << "@R14" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@3" << endl;
+      m_ofs << "A=D-A" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@ARG" << endl;
+      m_ofs << "M=D" << endl;
+
+      //LCL = *(frame-4)
+      m_ofs << "@R14" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@4" << endl;
+      m_ofs << "A=D-A" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@LCL" << endl;
+      m_ofs << "M=D" << endl;
+
+      //go to retAddr
+      m_ofs << "@R15" << endl;
+      m_ofs << "A=M" << endl;
+      m_ofs << "0;JMP" << endl;
+    }
 
 
 
@@ -600,10 +763,54 @@ void CodeWriter::Init()
   m_mMacroSeg["argument"] = "ARG";
 	m_truetag = 0;
   m_endtag = 0;
+  m_rettag = 0;
   m_ofs << "@256" << endl;  //SP->256
 	m_ofs << "D=A" << endl;
 	m_ofs << "@0" << endl;
 	m_ofs << "M=D" << endl;
+  //call Sys.init
+      m_ofs << "@RETURNADDRESS" << m_rettag  << endl;
+      m_ofs << "D=A" << endl;
+      PushToStack();
+      
+      m_ofs << "@LCL" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+      m_ofs << "@ARG" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+       
+      m_ofs << "@THIS" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+      
+      m_ofs << "@THAT" << endl;
+      m_ofs << "D=M" << endl;
+      PushToStack();
+
+      m_ofs << "@SP" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@5" << endl;
+      m_ofs << "D=D-A" << endl;
+      m_ofs << "@" << "0" << endl;
+      m_ofs << "D=D-A" << endl;
+      //push to lcl 
+      m_ofs << "@ARG" << endl;
+      m_ofs << "M=D" << endl;
+
+      //LCL = SP
+      m_ofs << "@SP" << endl;
+      m_ofs << "D=M" << endl;
+      m_ofs << "@LCL" << endl;
+      m_ofs << "M=D" << endl;
+
+      //goto g
+      m_ofs << "@" << "Sys.init" << endl;
+      m_ofs << "0;JMP" << endl;
+
+      //returnAddress
+      m_ofs << "(RETURNADDRESS" << m_rettag++ << ")"<< endl;
+
 }
 
 void CodeWriter::PushToStack()
