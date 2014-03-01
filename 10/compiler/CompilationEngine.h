@@ -46,7 +46,8 @@ public:
 	string m_token; //current token
 	string m_tokenType;
 	int numOfTab; //print how many tabs everyline.
+	bool m_bZeroStatements; //zero statements
 	bool m_bPutback; //need putback m_token;
 	Tokenizer tokenizer;
-	std::vector<string> stringStack; //store string temporarily
+	string stringStack; //store string temporarily
 };

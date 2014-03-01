@@ -4,6 +4,9 @@
 
 Tokenizer::Tokenizer()
 {
+	inBlank = false;
+	inComment = false;
+	inComment1 = false;
 	m_sKeyword = {"class","method","function","constructor",
 				"int","boolean","char","void","var","field","static",
 				"let","do","if","else","while","return","true","false",
@@ -27,22 +30,14 @@ void Tokenizer::advance()
 	m_ifs >> std::noskipws;
 	while(m_ifs>> c)  //don't use >> operator
 	{
-		if( (c>= 'A' && c<='Z' ) ||(c >='a' && c <='z'))
+		if( (c>= 'A' && c<='Z' ) ||(c >='a' && c <='z') ||(c>='0' && c<='9'))
 		{
 			if(inComment ||inComment1) //inComment /* */ inComment1 //
 			{
 				continue;
 			}
-			else if(inBlank)
-			{
-				m_ifs.putback(c);
-				inBlank = false;
-				m_token = tmpS;
-				return;
-			}
 			else
 			{
-				
 				tmpS += c;
 				continue;
 			}
@@ -50,9 +45,15 @@ void Tokenizer::advance()
 		else if ( c == ' ' )
 		{
 			if( tmpS.size() >0)
-				inBlank = true;
+			{
+				m_token = tmpS;
+				tmpS = "";
+				return;
+			}
+			else
+			{
 				continue;
-				
+			}	
 		}
 		else if( c == '\r')
 		{
@@ -142,15 +143,15 @@ string Tokenizer::tokenType()
 	if(!m_token.empty())
 	{
 	if(m_sKeyword.count(m_token) != 0)
-		return "KEYWORD";
+		return "keyword";
 	else if(std::ispunct(m_token[0]))
-		return "SYMBOL";
+		return "symbol";
 	else if(m_token.size() >0 && m_token[0] == '"')
-		return "STRING_CONST";
+		return "string_const";
 	else if(isDigit())
-		return "INT_CONST";
+		return "integerConstant";
 	else 
-		return "IDENTIFIER";
+		return "identifier";
 	}
 	else
 		return "";
@@ -161,15 +162,15 @@ string Tokenizer::tokenType(string s)
 	if(!s.empty())
 	{
 	if(m_sKeyword.count(s) != 0)
-		return "KEYWORD";
+		return "keyword";
 	else if(std::ispunct(s[0]))
-		return "SYMBOL";
+		return "symbol";
 	else if(s.size() >0 &&s[0] == '"')
-		return "STRING_CONST";
+		return "string_const";
 	else if(isDigit())
-		return "INT_CONST";
+		return "integerConstant";
 	else 
-		return "IDENTIFIER";
+		return "identifier";
 	}
 	else
 		return "";
@@ -268,6 +269,21 @@ bool Tokenizer::isDigit()
 		return true;
 }
 
+void Tokenizer::printToken()
+{
+	m_ofs << "<tokens>" << std::endl;
+	string s,sType;
+	while(hasMoreToken())
+	{
+		advance();
+		s = tokenType();
+		if(m_token != "") //excluding ending blank line and other
+			m_ofs << "<" <<s << ">" 
+			  <<" "<< m_token<< " " << "</"
+			  << s << ">" << std::endl;
+	}
+	m_ofs << "</tokens>" << std::endl;
+}
 
 			
 		

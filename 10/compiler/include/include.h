@@ -12,5 +12,6 @@
 #include <iterator>
 #include <sys/stat.h>
 #include <dirent.h>
+#include <cassert>
 using namespace std;
 

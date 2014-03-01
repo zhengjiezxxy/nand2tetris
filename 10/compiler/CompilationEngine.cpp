@@ -27,27 +27,35 @@ void CompilationEng::compileClass()
 
 void CompilationEng::compileClassVarDec()
 {
-	getToken();
-	if(m_token == "static" || m_token == "field")
+	while(true)
 	{
-		printNonterminal("classVarDec");
-		numOfTab++;
-		printCurrentToken(false); //<keyword> static|field </keyword>
-		printCurrentToken(); //<keyword> type </keyword>
-		printCurrentToken(); //<identifier> varName </identifier>
-		printMultipleVarDec(); //;or ,varName,varName;
-		numOfTab--; //restore format
-		printNonterminal("classVarDec",false); //end of classVarDec
-			
-		//compile next classvardec
-		compileClassVarDec();
+		getToken();
+		if(m_token == "constructor" ||m_token == "function" ||m_token == "method")
+		{
+			m_bPutback = true;
+			break;
+		}
+		else if(m_token == "static" || m_token == "field")
+		{
+			printNonterminal("classVarDec");
+			numOfTab++;
+			printCurrentToken(false); //<keyword> static|field </keyword>
+			printCurrentToken(); //<keyword> type </keyword>
+			printCurrentToken(); //<identifier> varName </identifier>
+			printMultipleVarDec(); //;or ,varName,varName;
+			numOfTab--; //restore format
+			printNonterminal("classVarDec",false); //end of classVarDec
+		}
+		else //debug
+		{
+			m_ofs << m_token << endl;
+			break;
+		}
 	}
 }
 
 void CompilationEng::compileSubroutine()
 {
-	printNonterminal("subroutine");
-	numOfTab++;
 	while(true)
 	{
 		getToken();
@@ -58,9 +66,10 @@ void CompilationEng::compileSubroutine()
 		}
 		else
 		{
-			if(m_token == "constructor" || m_token == "function" ||
-										m_token == "method")
+			if(m_token == "constructor" || m_token == "function" || m_token == "method")
 			{
+				printNonterminal("subroutineDec");
+				numOfTab++;
 				printCurrentToken(false); //<keyword> constructor|function|method </keyword>
 				printCurrentToken(true);  //<keyword> void|type </keyword>  void is also a keyword
 				printCurrentToken(true);  //<symbol> subroutineName </keyword>
@@ -68,11 +77,17 @@ void CompilationEng::compileSubroutine()
 				compileParameterList();
 				printCurrentToken(false); // <symbol> ) </symbol>
 				compileSubroutineBody();
+				numOfTab--;
+				printNonterminal("subroutineDec",false); //end of subroutine
+				}
+				else
+				{
+					m_ofs << m_token << endl;
+					break;
+				}
 			}
+			
 		}
-	}
-	numOfTab--;
-	printNonterminal("subroutine",false); //end of subroutine
 }
 
 void CompilationEng::compileParameterList()
@@ -94,28 +109,43 @@ void CompilationEng::compileSubroutineBody()
 	printCurrentToken(); //<symbol> { </symbol>
 	compileVarDec();
 	compileStatements();
-	numOfTab--;
 	printCurrentToken(); //<symbol> } </symbol>
+	numOfTab--;
 	printNonterminal("subroutineBody",false); // end of subroutineBody
 }
 
 void CompilationEng::compileVarDec()
 {
-	getToken();
-	printNonterminal("varDec");
-	numOfTab++;
-	printCurrentToken(false); //<keyword> var </keyword>
-	printCurrentToken(); //<keyword> type </keyword>
-	printCurrentToken(); //<id> varName </id>
-	printMultipleVarDec();//<id> varName,varName </id>
-	numOfTab--;
-	printNonterminal("varDec",false); //end of varDec
+	while(true)
+	{
+		getToken();
+		if(m_token == "let" || m_token =="do" || m_token == "if" 
+			||m_token == "while" ||m_token =="return")
+		{
+			m_bPutback = true;
+			break;
+		}
+		else if(m_token == "var")
+		{
+			printNonterminal("varDec");
+			numOfTab++;
+			printCurrentToken(false); //<keyword> var </keyword>
+			printCurrentToken(); //<keyword> type </keyword>
+			printCurrentToken(); //<id> varName </id>
+			printMultipleVarDec();//<id> varName,varName </id>
+			numOfTab--;
+			printNonterminal("varDec",false); //end of varDec
+		}
+		else 
+		{
+			m_ofs << m_token << endl;
+			break;
+		}
+	}
 }
 
 void CompilationEng::compileStatements()
 {
-	printNonterminal("statements");
-	numOfTab++;
 	while(true)
 	{
 		getToken();
@@ -126,20 +156,51 @@ void CompilationEng::compileStatements()
 		}
 		else 
 		{
+			if(m_bZeroStatements)
+			{
+				printNonterminal("statements");
+				numOfTab++;
+			}
+			m_bZeroStatements = false;
 			if(m_token == "let")
+			{
 				compileLet();
+				m_bZeroStatements =false;
+			}
 			else if(m_token == "if")
+			{
 				compileIf();
+				m_bZeroStatements=false;
+			}
 			else if(m_token == "while")
+			{
 				compileWhile();
+				m_bZeroStatements = false;
+			}
 			else if(m_token == "do")
+			{
 				compileDo();
+				m_bZeroStatements =false;
+			}
 			else if(m_token == "return")
+			{
 				compileReturn();
+				m_bZeroStatements=false;
+			}
+			else
+			{
+				m_ofs << m_token << endl;
+				break;
+			}
 		}
+		
 	}
-	numOfTab--;
-	printNonterminal("statements",false); //end of statements
+	if(!m_bZeroStatements)
+	{
+		numOfTab--;
+		printNonterminal("statements",false); //end of statements
+	}
+	m_bZeroStatements = true;
 }
 	
 void CompilationEng::compileLet()
@@ -172,6 +233,7 @@ void CompilationEng::compileDo()
 	numOfTab++;
 	printCurrentToken(false); //<keyword> do </keyword>
 	compileSubroutineCall();
+	printCurrentToken();  //<symbol> ; </symbol>
 	numOfTab--;
 	printNonterminal("doStatement",false);
 }
@@ -185,6 +247,7 @@ void CompilationEng::compileIf()
 	compileExpression();
 	printCurrentToken(); //<symbol> ) </symbol>
 	printCurrentToken(); //<symbol> { </symbol>
+	m_bZeroStatements=true;
 	compileStatements(); 
 	printCurrentToken(); //<symbol> } </symbol>
 
@@ -194,7 +257,8 @@ void CompilationEng::compileIf()
 	{
 		printCurrentToken(false); //<keyword> else </keyword>
 		printCurrentToken(); //<symbol> { </symbol>
-		compileExpression(); 
+		m_bZeroStatements=true;
+		compileStatements(); 
 		printCurrentToken(); //<symbol> } </symbol>
 	}
 	else
@@ -215,11 +279,12 @@ void CompilationEng::compileWhile()
 	compileExpression();
 	printCurrentToken(); //<symbol> ) </symbol>
 	printCurrentToken(); //<symbol> { </symbol>
+	m_bZeroStatements =true;
 	compileStatements();
 	printCurrentToken(); //<symbol> } </symbol>
 
 	numOfTab--;
-	printNonterminal("whilestatement",false);
+	printNonterminal("whileStatement",false);
 }
 
 void CompilationEng::compileReturn()
@@ -245,27 +310,43 @@ void CompilationEng::compileReturn()
 
 void CompilationEng::compileExpression()
 {
-	getToken();
-	printNonterminal("expression"); //<expression>
-	numOfTab++;
-	compileTerm();
 	while(true)
 	{
 		getToken();
 		char c = m_token[0];
-		if(m_sOp.count(c) >0)
+		if(m_token == ")" )
+		{
+			if(stringStack == "(") //empty expression
+			{
+			}
+			else
+			{
+				numOfTab--;
+				printNonterminal("expression",false);
+			}
+			m_bPutback = true;
+			break;
+		}
+		if( m_token == "," || m_token == ";")  //expressionList
+		{
+			m_bPutback =true;
+			numOfTab--;
+			printNonterminal("expression",false);
+			break;
+		}
+		else if(m_sOp.count(c) >0)
 		{
 			printCurrentToken(false); //<symbol> op </symbol>
 			compileTerm();
 		}
 		else
 		{
+			printNonterminal("expression"); //<expression>
+			numOfTab++;
 			m_bPutback = true;
-			break;
+			compileTerm();
 		}
 	}
-	numOfTab--;
-	printNonterminal("expression",false);
 }
 
 void CompilationEng::compileTerm()
@@ -274,66 +355,71 @@ void CompilationEng::compileTerm()
 	printNonterminal("term");
 	numOfTab++;
 
-	if(tokenizer.tokenType() == "KEYWORD")
+	if(tokenizer.tokenType() == "keyword")
 	{
 		printCurrentToken(false); //<keyword> keyword </keyword>
 	}
-	else if(tokenizer.tokenType() == "STRINGCONST")
+	else if(tokenizer.tokenType() == "stringconst")
 	{
 		printCurrentToken(false);
 	}
-	else if(tokenizer.tokenType() == "INTCONST")
+	else if(tokenizer.tokenType() == "integerConstant")
+	{
 		printCurrentToken(false);
-	else if(tokenizer.tokenType() == "SYMBOL")
+	}
+	else if(tokenizer.tokenType() == "symbol")
 	{
 		if(m_token == "(") // (expression)
 		{
 			printCurrentToken(false);
 			compileExpression();
+			printCurrentToken();  //<symbol> )</symbol>
 		}
 		else if(m_token == "-" || m_token == "~")
 		{
 			printCurrentToken(false); //<symbol> -|~ </symbol>
 			compileTerm();
 		}
+		else //empty term
+		{
+
+			m_bPutback = true;
+			}
 	}
-	else if(tokenizer.tokenType() == "IDENTIFIER")
+	else if(tokenizer.tokenType() == "identifier")
 	{
-		stringStack.push_back(m_token);
 		getToken();
 		if(m_token == "[") //varName [ expression ]
 		{
-			printToken(stringStack[0]);
+			printToken(stringStack);
 			printCurrentToken(false);
 			compileExpression();
 			printCurrentToken(); //<symbol> ] </symbol>
 		}
 		else if(m_token == "(" ) // subroutineCall
 		{
-			printNonterminal("subroutineCall");
-			numOfTab++;
-			printToken(stringStack[0]);
+			printToken(stringStack);
 			printCurrentToken(false); //<symbol> ( </symbol>
 			compileExpressionList();
 			printCurrentToken();
-			numOfTab--;
-			printNonterminal("subroutineCall",false);
 		}
 		else if(m_token == ".") 
 		{
-			printNonterminal("subroutineCall");
-			numOfTab++;
-			printToken(stringStack[0]); //className
+			printToken(stringStack); //className
 			printCurrentToken(false); //<symbol> . </symbol>
 			printCurrentToken(); //<id> subroutineName </id>
 			printCurrentToken(); //<symbol> ( </symbol>
 			compileExpressionList();
 			printCurrentToken(); //<symbol> ) </symbol>
-			numOfTab--;
-			printNonterminal("subroutineCall",false);
 		}
-		else  //varName 
+		else  if(m_sOp.count(m_token[0]) > 0) //term op term
 		{
+			printToken(stringStack); //<id> </id>
+			m_bPutback = true;
+		}
+		else//varName 
+		{
+			printToken(stringStack); //<id> varName </id>
 			m_bPutback = true;
 		}
 	}
@@ -344,8 +430,6 @@ void CompilationEng::compileTerm()
 
 void CompilationEng::compileSubroutineCall()
 {
-	printNonterminal("subroutineCall");
-	numOfTab++;
 	printCurrentToken(); //<id> </id>
 	getToken();
 	if(m_token == "(")
@@ -362,13 +446,13 @@ void CompilationEng::compileSubroutineCall()
 		compileExpressionList();
 		printCurrentToken(); //<symbol> ) </symbol>
 	}
-	numOfTab--;
-	printNonterminal("subroutineCall",false);
 }
 void CompilationEng::compileExpressionList()
 {
 	printNonterminal("expressionList");
 	numOfTab++;
+	compileExpression();
+
 	while(true)
 	{
 		getToken();
@@ -382,10 +466,10 @@ void CompilationEng::compileExpressionList()
 			m_bPutback = true;
 			break;
 		}
-		else
+		else 
 		{
-			m_bPutback = true;
-			compileExpression();
+			m_ofs << m_token << endl;
+			break;
 		}
 	}
 
@@ -403,26 +487,24 @@ void CompilationEng::printCurrentToken(bool get)
 	}
 	m_tokenType = tokenizer.tokenType();
 	string s = m_tokenType;
-	std::transform(s.begin(),s.end(),s.begin(),std::ptr_fun<int,int>(std::tolower));
 	for(int i=0; i<numOfTab; ++i)
-		m_ofs << "\t" ;
-	m_ofs << "<" << s << ">" << m_token << "</" << s << ">" << endl;
+		m_ofs << " "<< " " ;
+	m_ofs << "<" << s << ">" << " " << m_token << " " << "</" << s << ">" << endl;
 }
 
 void CompilationEng::printToken(string s)
 {
 	string tokenType = tokenizer.tokenType(s);
-	std::transform(s.begin(),s.end(),s.begin(),std::ptr_fun<int,int>(std::tolower));
 	for(int i=0; i<numOfTab; ++i)
-		m_ofs << "\t";
-	m_ofs << "<" << tokenType  << ">" << s << "</" << tokenType << ">" << endl;
+		m_ofs << " "<< " ";
+	m_ofs << "<" << tokenType  << ">" << " " << s << " " << "</" << tokenType << ">" << endl;
 }
 
 															
 void CompilationEng::printNonterminal(string nonterminal, bool isstart)
 {
 	for(int i=0;i<numOfTab;++i)
-		m_ofs << "\t";
+		m_ofs << " "<< " ";
 	if(isstart)
 		m_ofs << "<" << nonterminal << ">" << endl;
 	else 
@@ -473,6 +555,7 @@ void CompilationEng::getToken()
 
 		if(!m_bPutback)
 			tokenizer.advance();
+			stringStack = m_token;
 			m_token = tokenizer.m_token;
 	}
 	m_bPutback = false;
@@ -480,7 +563,9 @@ void CompilationEng::getToken()
 
 void CompilationEng::init()
 {
-	m_sOp = {'+','-','/','*','&','|','<','>','='};
-	numOfTab = 0;
-	tokenizer.m_ifs.open(m_sifs,ios_base::in);
+		m_sOp = {'+','-','/','*','&','|','<','>','='};
+			numOfTab = 0;
+			m_bPutback =false;
+			m_bZeroStatements = true;
+				tokenizer.m_ifs.open(m_sifs,ios_base::in);
 }

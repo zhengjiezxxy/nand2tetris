@@ -16,14 +16,16 @@ public:
 	int intVal(); // should be called when tokentype is int_const
 	string stringVal(); //should be called when tokentype is string_const
 	bool isDigit(); // is this token a digit string
+	void printToken(); //print tokens one by one to the end;
 
 public:
 	ifstream m_ifs; //jack source file
+	ofstream m_ofs; //jack output file
 	set<char> m_sDelim; // delimiter set, including ' ', '\n', ';', '(', 
 			//')', '+', '-', '*'
 	string m_token; // current token
 	set<string> m_sKeyword; //keyword set
-	bool inComment=false; // /*  such comment */ or /** such comment */
-	bool inComment1=false; // such comment
-	bool inBlank=false; // is the inputstream process into blank zone
+	bool inComment; // /*  such comment */ or /** such comment */
+	bool inComment1; // such comment
+	bool inBlank; // is the inputstream process into blank zone
 };
