@@ -123,7 +123,22 @@ void Tokenizer::advance()
 			{
 				if(tmpS.size() == 0)
 				{
-					m_token = c;
+					if(c=='<')
+					{	
+						m_token = "&lt;";
+					}
+					else if(c=='>')
+					{
+						m_token = "&gt;";
+					}
+					else if(c=='&')
+					{
+						m_token = "&amp;";
+					}
+					else
+					{
+						m_token = c;
+					}
 					return;
 				}
 				else
