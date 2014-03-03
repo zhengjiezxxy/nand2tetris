@@ -486,7 +486,7 @@ M=M+1
 A=M
 A=A-1
 D=M
-@18
+@16
 M=D
 @SP
 M=M-1
@@ -503,7 +503,7 @@ M=M+1
 A=M
 A=A-1
 D=M
-@19
+@17
 M=D
 @SP
 M=M-1
@@ -569,14 +569,14 @@ M=D
 A=M
 0;JMP
 (Class1.get)
-@18
+@16
 D=M
 @0
 A=M
 M=D
 @SP
 M=M+1
-@19
+@17
 D=M
 @0
 A=M

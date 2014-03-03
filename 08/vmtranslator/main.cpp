@@ -54,7 +54,8 @@ int main(int argc, char* argv[])
         perror("cannot open directory");
       //
       //assume there is only one level of dirctory,so needn't cd to next dirctory
-      string tmpfile = sourcefile + "/tmp";
+      string tmpfile = sourcefile + ".tmp";
+      
       std::ofstream ofs(tmpfile,std::ios_base::binary);
 
         while((p_dir=readdir(dp))!=NULL)
@@ -76,6 +77,8 @@ int main(int argc, char* argv[])
             }
           }
          }
+
+          ofs.close(); //need close the stream and flush the data or the tmp file is empty
            outfile = sourcefile    +".asm";
             parser.m_ifs.open(tmpfile.c_str(),std::ios_base::in);
             writer.m_ofs.open(outfile.c_str(),std::ios_base::out);

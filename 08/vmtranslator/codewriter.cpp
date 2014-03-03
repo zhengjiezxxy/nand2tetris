@@ -639,6 +639,12 @@ void CodeWriter::WriteCom(trivec tvec)
     else if( m_sCom == "function" )
     {
       //push 0 repeat nVars times
+      string currentClassName = m_sArg1.substr(0,m_sArg1.find_first_of("."));
+      if(currentClassName != className)
+      {
+          staticSegStart += (staticMaxDepth +1);
+          className = currentClassName;
+      }
       if(IsNum(m_sArg2))
       {
         m_ofs << "(" << m_sArg1 << ")" << endl;
@@ -757,6 +763,9 @@ void CodeWriter::Init()
   bTemp = false;
   bPointer = false;
   bStatic = false;
+  className = "";
+  staticSegStart = 0;
+  staticMaxDepth = -1;
   m_mMacroSeg["local"] = "LCL";
   m_mMacroSeg["this"] = "THIS";
   m_mMacroSeg["that"] = "THAT";
@@ -843,7 +852,10 @@ void CodeWriter::GetValueFromSegment(bool reverse)
     if(bConst)
       m_ofs << "@" << stol(m_sArg2) << endl;
     else if(bStatic)
-      m_ofs << "@" << STATIC(0) + stol(m_sArg2) << endl;
+    {
+      staticMaxDepth = std::max(stoi(m_sArg2),staticMaxDepth);
+      m_ofs << "@" << STATIC(0) + staticSegStart + stol(m_sArg2) << endl;
+    }
     else if(bTemp)
       m_ofs << "@" << TEMP(0) + stol(m_sArg2) << endl;
     else if(bPointer)

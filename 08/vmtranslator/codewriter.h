@@ -38,10 +38,13 @@ public:
 public:
 	string m_sCom; //command 
 	string m_sArg1; //argument 1
-    string m_sArg2; //argument 2
+  string m_sArg2; //argument 2
+  string className; //className
   ofstream m_ofs;   // output stream
   int m_truetag;
   int m_endtag;
+  int staticMaxDepth; //where last class static segment stay
+  int staticSegStart; //static segment relative start address
   int m_rettag; // return counter
   bool bConst;  // const segment
   bool bStatic;  // static segment
