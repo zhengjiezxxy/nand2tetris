@@ -10,6 +10,7 @@ class Keyboard {
 
     /** Initializes the keyboard. */
     function void init() {
+      return;
     } 
 
     /**
@@ -33,7 +34,7 @@ class Keyboard {
      * F1 - F12 = 141 - 152
      */
     function char keyPressed() {
-      return memory.peek(24576);
+      return Memory.peek(24576);
     }
 
     /**								
@@ -47,7 +48,7 @@ class Keyboard {
 
       //wait input
       let c = 0;
-      while((c = 0 )
+      while(c = 0 )
       {
         let c = Keyboard.keyPressed();
       }
@@ -79,17 +80,17 @@ class Keyboard {
       let c = Keyboard.readChar();
       while(~((c-128) = 0))
       {
-        if(c = String.backspace())  //129
+        if(c = String.backSpace())  //129
         {
-          if(~(s.length = 0)) //string length is not zero backspace
+          if(~(s.length()= 0)) //string length is not zero backspace
           {
             do s.eraseLastChar();
-            do Output.backspace();
+            do Output.backSpace();
           }
         }
         else
         {
-          do s.append(c);
+          do s.appendChar(c);
         }
 
         let c = Keyboard.readChar();
@@ -108,31 +109,7 @@ class Keyboard {
      */
     function int readInt(String message) {
       var String s;
-      var char c; //current input char
-       
-      let s = String.new(1024); // 1024 character at most
-      let c = Keyboard.readChar();
-      while((c>47) & (c<58))
-      {
-        if(c = String.backspace())  //129
-        {
-          if(~(s.length = 0)) //string length is not zero backspace
-          {
-            do s.eraseLastChar();
-            do Output.backspace();
-          }
-        }
-        else
-        {
-          do s.append(c);
-        }
-
-        let c = Keyboard.readChar();
-      }
-
-      do Output.println();
-
-      return s.intVal();
-
+      let s = Keyboard.readLine(message);
+      return s.intValue();
     }
 }

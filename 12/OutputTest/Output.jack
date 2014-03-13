@@ -23,6 +23,8 @@ class Output {
       let currentColumn = 0;
       let currentRow = 0;
       do Output.initMap();
+
+      return;
     }
 
     // Initalizes the character map array
@@ -71,7 +73,7 @@ class Output {
         do Output.create(64,30,51,51,59,59,59,27,3,30,0,0);  // @
         do Output.create(63,30,51,51,24,12,12,0,12,12,0,0);  // ?
 
-        do Output.create(65,0,0,0,0,0,0,0,0,0,0,0);          // A ** TO BE FILLED **
+        do Output.create(65,48,120,204,204,252,204,204,204,204,0,0);          // A ** TO BE FILLED **
         do Output.create(66,31,51,51,51,31,51,51,51,31,0,0); // B
         do Output.create(67,28,54,35,3,3,3,35,54,28,0,0);    // C
         do Output.create(68,15,27,51,51,51,51,51,27,15,0,0); // D
@@ -179,61 +181,63 @@ class Output {
     function void moveCursor(int i, int j) {
       let currentColumn = j;
       let currentRow = i;
-      do Output.printChar(32);
+
+      return;
     }
 
     /** Prints c at the cursor location and advances the cursor one
      *  column forward. */
     function void printChar(char c) {
       var Array map;
+      var int memValue; //pre-memory value;
+      var int i; //loop counter
 
       let map = Output.getMap(c);
       //16384 screen base address  32=512/15 screen column machine words
       //2=8/16 character row width machine words
-      if(currentColumn-2*(currentColumn/2))  //odd number
+      if(((currentColumn-(2*(currentColumn/2))) > 0))  //odd number
       {
-        do Memory.poke(16384+(11*currentRow+0)*32+currentColumn/2,map[0]);
-        do Memory.poke(16384+(11*currentRow+1)*32+currentColumn/2,map[1]);
-        do Memory.poke(16384+(11*currentRow+2)*32+currentColumn/2,map[2]);
-        do Memory.poke(16384+(11*currentRow+3)*32+currentColumn/2,map[3]);
-        do Memory.poke(16384+(11*currentRow+4)*32+currentColumn/2,map[4]);
-        do Memory.poke(16384+(11*currentRow+5)*32+currentColumn/2,map[5]);
-        do Memory.poke(16384+(11*currentRow+6)*32+currentColumn/2,map[6]);
-        do Memory.poke(16384+(11*currentRow+7)*32+currentColumn/2,map[7]);
-        do Memory.poke(16384+(11*currentRow+8)*32+currentColumn/2,map[8]);
-        do Memory.poke(16384+(11*currentRow+9)*32+currentColumn/2,map[9]);
-        do Memory.poke(16384+(11*currentRow+10)*32+currentColumn/2,map[10]);
+        let i = 0;
+        while(i<11)
+        {
+          //get orginianl memmoy value
+          let memValue = Memory.peek(16384+((11*currentRow+i)*32)+(currentColumn/2));
+          let memValue = map[i]*256 + (memValue - (256*(memValue/256)))  ; //high 8 bit add low 8 bit
+          do Memory.poke(16384+((11*currentRow+i)*32)+(currentColumn/2),memValue);
+
+          let i = i +1;
+        }
+
       }
       else
       {
-        do Memory.poke(16384+(11*currentRow+0)*32+currentColumn/2,map[0]*256);
-        do Memory.poke(16384+(11*currentRow+1)*32+currentColumn/2,map[1]*256);
-        do Memory.poke(16384+(11*currentRow+2)*32+currentColumn/2,map[2]*256);
-        do Memory.poke(16384+(11*currentRow+3)*32+currentColumn/2,map[3]*256);
-        do Memory.poke(16384+(11*currentRow+4)*32+currentColumn/2,map[4]*256);
-        do Memory.poke(16384+(11*currentRow+5)*32+currentColumn/2,map[5]*256);
-        do Memory.poke(16384+(11*currentRow+6)*32+currentColumn/2,map[6]*256);
-        do Memory.poke(16384+(11*currentRow+7)*32+currentColumn/2,map[7]*256);
-        do Memory.poke(16384+(11*currentRow+8)*32+currentColumn/2,map[8]*256);
-        do Memory.poke(16384+(11*currentRow+9)*32+currentColumn/2,map[9]*256);
-        do Memory.poke(16384+(11*currentRow+10)*32+currentColumn/2,map[10]*256);
+        let i = 0;
+        while(i<11)
+        {
+          //get orginianl memmoy value
+          let memValue = Memory.peek(16384+((11*currentRow+i)*32)+(currentColumn/2));
+          let memValue = map[i] + (memValue - (256*(memValue/256)))  ; //high 8 bit add low 8 bit
+          do Memory.poke(16384+((11*currentRow+i)*32)+(currentColumn/2),memValue);
+
+          let i = i+1;
+        }
       }
 
       // advance cursor
       if(currentColumn < 63)
       {
-        let currentColumn = currentColum+1;
+        let currentColumn = currentColumn+1;
       }
       else
       {
         let currentColumn = 0;
         if(currentRow < 22) // don't scroll screen yet
         {
-          let CurrentRow = currentRow + 1;
+          let currentRow = currentRow + 1;
         }
         else 
         {
-          let CurrentRow = 0;
+          let currentRow = 0;
         }
       }
       return;
@@ -261,6 +265,7 @@ class Output {
      *  cursor appropriately. */
     function void printInt(int i) {
       var String s;
+      let s = String.new(6);
       do s.setInt(i);
       do  Output.printString(s);
       do s.dispose();
@@ -277,7 +282,7 @@ class Output {
       }
       else
       {
-        let CurrentRow = 0;
+        let currentRow = 0;
       }
       return;
     }

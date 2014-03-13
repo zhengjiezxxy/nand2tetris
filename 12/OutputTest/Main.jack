@@ -19,7 +19,7 @@ class Main {
         do Output.moveCursor(22, 0);
         do Output.printChar(67);
         do Output.moveCursor(22, 63);
-        do Output.printChar(68);
+       do Output.printChar(68);
         do Output.printChar(65);
         
         do Output.moveCursor(2, 0);
@@ -27,7 +27,7 @@ class Main {
         do Output.println();
         
         do Output.printString("ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz");
-        do Output.println();
+       do Output.println();
         
         do Output.printString("!#$%&'()*+,-./:;<=>?@[\]^_`{|}~");
         do Output.printString(s);

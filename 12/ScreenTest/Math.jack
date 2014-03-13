@@ -1,0 +1,247 @@
+class Math{
+
+  static int NumberOfBit;
+  static int M;
+  function void init()
+  {
+    let NumberOfBit = 15;
+    let M=0;
+    return;
+  }
+
+  function int abs(int x)
+  {
+    var int y;
+    if(x<0)
+    {
+      let y= -x;
+    }
+    else
+    {
+     let y=x;
+    }
+    return y;
+  }
+
+  function int multiply(int x, int y)
+  {
+    var int sum;
+    var int shiftedX;
+    var int unsy; //unsigned y
+    var int i; //loop counter
+    let sum = 0;
+    let shiftedX =  x;
+    let unsy = Math.abs(y);
+
+    let i = 0;
+    while(i < NumberOfBit)
+    {
+      if(unsy & Math.decOfBit(i))
+      {
+        let sum = sum + shiftedX;
+      }
+     let  shiftedX = shiftedX + shiftedX;
+
+     let i = i + 1;
+    }
+
+    if(y+1>0)
+    {
+      return sum;
+    }
+    else
+    {
+      return -sum;
+    }
+  }
+
+  function int divide(int x,int y)
+  {
+    var int q;
+    if(((x+1>0) &(y>0)) |((x<0) & (y<0)))
+    {
+     let  q = Math.positivedivide(x,y);
+    }
+    else
+    {
+      let q = -Math.positivedivide(Math.abs(x),Math.abs(y));
+    }
+    //q = 0 ingnored
+    return q;
+  }
+
+  function int positivedivide(int x, int y)
+  {
+    var int q;
+    
+    let q = 0;
+
+    if((y>x))
+    {
+      let M = 0;
+      return 0;
+    }
+
+    if(y>16383)
+    {
+      let M=y;
+      return 1;
+    }
+
+    let q = Math.positivedivide(x,y+y);
+    
+    if((x-M-y)<0)
+    {
+      return q+q;
+    }
+    else
+    {
+      let M = M + y;
+      return q+q+1;
+    }
+
+  }
+
+  function int min(int x,int y)
+  {
+    if(x<y)
+    {
+      return x;
+    }
+    else
+    {
+      return y;
+    }
+  }
+
+  function int max(int x,int y)
+  {
+    if(x>y)
+    {
+      return x;
+    }
+    else
+    {
+      return y;
+    }
+  }
+
+  function int sqrt(int x)
+  {
+    var int y;
+    var int n;
+    var int k;
+    var int i;
+    var int tmp;
+
+    if(x -2 <0)
+    {
+      return 1;
+    }
+
+    let i = 0;
+    let n= 0;
+    while(i < (NumberOfBit+1))
+    {
+      if(i>0)
+      {
+        if(((x-1-Math.decOfBit(i))<0) & (x>Math.decOfBit(i-1)))
+        {
+         let  n = i;
+        }
+      }
+      let i = i +1;
+    }
+
+    let y = 0;
+    let k = Math.divide(n,2)+1;
+    while(k>0)
+    {
+      let tmp = Math.decOfBit(k-1) + y;
+      //avoid tmp is too big 
+      if(tmp <182)
+      {
+        if((Math.multiply(tmp,tmp)-x-1) < 0)
+        {
+          let y = tmp;
+        }
+      }
+
+      let k = k - 1;
+    }
+    
+    return y;
+  }
+
+function int decOfBit(int n)
+{
+  if(n=0)
+  {
+    return 1;
+  }
+  if(n=1)
+  {
+    return 2;
+  }
+  if(n=2)
+  {
+    return 4;
+  }
+  if(n=3)
+  {
+    return 8;
+  }
+  if(n=4)
+  {
+    return 16;
+  }
+  if(n=5)
+  {
+    return 32;
+  }
+  if(n=6)
+  {
+    return 64;
+  }
+  if(n=7)
+  {
+    return 128;
+  }
+  if(n=8)
+  {
+    return 256;
+  }
+  if(n=9)
+  {
+    return 512;
+  }
+  if(n=10)
+  {
+    return 1024;
+  }
+  if(n=11)
+  {
+    return 2048;
+  }
+  if(n=12)
+  {
+    return 4096;
+  }
+  if(n=13)
+  {
+    return 8192;
+  }
+  if(n=14)
+  {
+    return 16384;
+  }
+  if(n=15)
+  {
+    return 32767;
+  }
+
+  return 0;
+}
+
+}
+
