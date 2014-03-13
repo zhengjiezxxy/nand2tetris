@@ -1,0 +1,108 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Memory.jack
+
+/**
+ * Memory operations library.
+ */ 
+class Memory {
+
+    static Array memory;
+    static int freelist;
+    static int heapbase;
+    /** Initializes memory parameters. */
+    function void init() {
+      let memory = 0;
+      let heapbase = 2048;
+      let freelist = heapbase; //heap base
+      let memory[2048] = 14336;
+      let memory[2049] = 0;
+      return;
+    }
+
+    /** Returns the value of the main memory at the given address. */
+    function int peek(int address) {
+      return memory[address];
+    }
+
+    /** Sets the value of the main memory at this address
+     *  to the given value. */
+    function void poke(int address, int value) {
+      let memory[address] = value;
+      return;
+    }
+
+    /** finds and allocates from the heap a memory block of the 
+     *  specified size and returns a reference to its base address. */
+    function int alloc(int size) {
+      var int current;
+      var int parent;
+      var int segmentSize;
+      var int resAdd;
+      var boolean break;
+
+
+     //first fit policy for simplicity,don't implement defragmentation yet 
+     let current = freelist;
+     let parent = freelist;
+     let break = false;
+     let resAdd = 0;
+
+     while(~break & (current >0))
+     {
+        let segmentSize = memory[current];
+        if((segmentSize-size-2)>0) //segmentSize>= size+3
+        {
+          if(current = freelist)
+          {
+            let freelist = current +size +1;
+          }
+          else
+          {
+            let memory[parent+1] = current + size + 1; //parent point to current
+          }
+          
+          let memory[current+size+1] = memory[current] -size-1; //refresh size
+          let memory[current+size+2] = memory[current+1]; //current point to current's next children
+          let resAdd = current + 1; //current point to block size
+          let break = true;
+        }
+        else
+        {
+          if(segmentSize>size) // size+1<= segmentSize < size+3
+          {
+            if(current = freelist)
+            {
+              let freelist = memory[current+1]; //freelist shift to current's children
+            }
+            else
+            {
+              let memory[parent+1] = memory[current+1];  //parent point to current's children
+            }
+            let break = true;
+            let resAdd = current + 1; 
+          }
+          else
+          {
+            let parent = current;
+            let current = memory[current+1];
+          }
+        }
+     }
+     if(resAdd = 0)
+     {
+       do Sys.error(1); // suppose errorcode 1 responds to out of memory
+     }
+
+     return resAdd; // new allocated address
+
+  }
+
+    /** De-allocates the given object and frees its space. */
+    function void deAlloc(int object) {
+      let memory[object] = freelist;
+      let freelist = object -1; //new dellocated area lead the freelist
+      return;
+    }    
+}
