@@ -53,6 +53,9 @@ int main(int argc, char** argv)
 				baseName = filename.substr(0,filename.find_last_of("."));
 				string newFile = baseName + ".xml";
 				comEng.m_ofs.open(newFile.c_str(),ios_base::out);
+				//vm output
+				string outputVM = baseName + ".vm";
+				comEng.writer.m_ofs.open(outputVM.c_str(),ios_base::out);
 				comEng.compileClass();
 
 				//tokens output

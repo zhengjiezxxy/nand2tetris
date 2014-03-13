@@ -13,7 +13,7 @@
   <classVarDec>
     <keyword> field </keyword>
     <keyword> int </keyword>
-    <identifier> size  defining field 1 </identifier>
+    <identifier> size  defining field 2 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <subroutineDec>
@@ -29,7 +29,7 @@
       <identifier> Ay  defining arg 1 </identifier>
       <symbol> , </symbol>
       <keyword> int </keyword>
-      <identifier> Asize  defining arg 1 </identifier>
+      <identifier> Asize  defining arg 2 </identifier>
     </parameterList>
     <symbol> ) </symbol>
     <subroutineBody>
@@ -59,7 +59,7 @@
         </letStatement>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> size  using field 1 </identifier>
+          <identifier> size  using field 2 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -70,7 +70,7 @@
         </letStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> draw  defining arg 1 </identifier>
+          <identifier> draw </identifier>
           <symbol> ( </symbol>
           <expressionList>
           </expressionList>
@@ -103,9 +103,9 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Memory  defining arg 1 </identifier>
+          <identifier> Memory </identifier>
           <symbol> . </symbol>
-          <identifier> deAlloc  defining arg 1 </identifier>
+          <identifier> deAlloc  defining arg 4 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -138,9 +138,9 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Screen  defining arg 1 </identifier>
+          <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> setColor  defining arg 1 </identifier>
+          <identifier> setColor  defining arg 6 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -154,9 +154,9 @@
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Screen  using arg 1 </identifier>
+          <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> drawRectangle  defining arg 1 </identifier>
+          <identifier> drawRectangle  defining arg 7 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -215,9 +215,9 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Screen  using arg 1 </identifier>
+          <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> setColor  using arg 1 </identifier>
+          <identifier> setColor  using arg 6 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -231,9 +231,9 @@
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Screen  using arg 1 </identifier>
+          <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> drawRectangle  using arg 1 </identifier>
+          <identifier> drawRectangle  using arg 7 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -347,7 +347,7 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> erase  defining arg 1 </identifier>
+              <identifier> erase </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -356,7 +356,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> size  using field 1 </identifier>
+              <identifier> size  using field 2 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -371,7 +371,7 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> draw  using arg 1 </identifier>
+              <identifier> draw </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -417,7 +417,7 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> erase  using arg 1 </identifier>
+              <identifier> erase </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -426,7 +426,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> size  using field 1 </identifier>
+              <identifier> size  using field 2 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -441,7 +441,7 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> draw  using arg 1 </identifier>
+              <identifier> draw </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -487,9 +487,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -503,9 +503,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -574,9 +574,9 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -590,9 +590,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -679,9 +679,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -695,9 +695,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -752,9 +752,9 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -768,9 +768,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -861,9 +861,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -877,9 +877,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -948,9 +948,9 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -964,9 +964,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1053,9 +1053,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1069,9 +1069,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1126,9 +1126,9 @@
             </letStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor  using arg 1 </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1142,9 +1142,9 @@
             </doStatement>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> Screen  using arg 1 </identifier>
+              <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle  using arg 1 </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>

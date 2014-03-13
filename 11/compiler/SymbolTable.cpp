@@ -47,35 +47,7 @@ void SymbolTable::define(string name,string type,string kind)
 
 int SymbolTable::varCount(string kind)
 {
-	int res;
-	if(bInClass)
-	{
-		if(kind == "static")
-			res = m_ciStatic?m_ciStatic-1:m_ciStatic;
-		else if(kind == "field")
-			res = m_ciField?m_ciField-1:m_ciField;
-		else if(kind == "arg")
-			res = m_ciArg?m_ciArg-1:m_ciArg;
-		else if(kind == "var")
-			res = m_ciVar?m_ciVar-1:m_ciVar;
-		else
-			perror("not a kind");
-	}
-	else
-	{
-		if(kind == "static")
-			res = m_siStatic?m_siStatic-1:m_siStatic;
-		else if(kind == "field")
-			res = m_siField?m_siField-1:m_siField;
-		else if(kind == "arg")
-			res = m_siArg?m_siArg-1:m_siArg;
-		else if(kind == "var")
-			res = m_siVar?m_siVar-1:m_siVar;
-		else
-			perror("not a kind");
-	}
-
-	return res;
+	return 0;
 }
 
 string SymbolTable::kindOf(string name)
@@ -167,4 +139,11 @@ bool SymbolTable::contain(string name)
 			res = false;
 	}
 	return res;
+}
+
+void SymbolTable::clear()
+{
+	subSymTab.clear();
+	m_siArg = 0;
+	m_siVar =0;
 }

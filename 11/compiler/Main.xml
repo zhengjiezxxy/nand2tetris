@@ -5,7 +5,7 @@
   <subroutineDec>
     <keyword> function </keyword>
     <keyword> void </keyword>
-    <identifier> main subroutineName </identifier>
+    <identifier> main className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -15,19 +15,19 @@
       <varDec>
         <keyword> var </keyword>
         <identifier> SquareGame </identifier>
-        <identifier> game  using var 0 </identifier>
+        <identifier> game  defining var 0 </identifier>
         <symbol> ; </symbol>
       </varDec>
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> game  defining var 0 </identifier>
+          <identifier> game  using var 0 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
               <identifier> SquareGame </identifier>
               <symbol> . </symbol>
-              <identifier> new  using var 1 </identifier>
+              <identifier> new  defining var 1 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -38,9 +38,9 @@
         </letStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> game  defining var 0 </identifier>
+          <identifier> game </identifier>
           <symbol> . </symbol>
-          <identifier> run  using var 1 </identifier>
+          <identifier> run  defining var 2 </identifier>
           <symbol> ( </symbol>
           <expressionList>
           </expressionList>
@@ -49,9 +49,9 @@
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> game  defining var 0 </identifier>
+          <identifier> game </identifier>
           <symbol> . </symbol>
-          <identifier> dispose  using var 1 </identifier>
+          <identifier> dispose  defining var 3 </identifier>
           <symbol> ( </symbol>
           <expressionList>
           </expressionList>

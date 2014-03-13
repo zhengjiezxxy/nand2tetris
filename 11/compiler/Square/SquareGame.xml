@@ -1,23 +1,23 @@
 <class>
   <keyword> class </keyword>
-  <identifier> SquareGame </identifier>
+  <identifier> SquareGame className </identifier>
   <symbol> { </symbol>
   <classVarDec>
     <keyword> field </keyword>
     <identifier> Square </identifier>
-    <identifier> square </identifier>
+    <identifier> square  defining field 0 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <classVarDec>
     <keyword> field </keyword>
     <keyword> int </keyword>
-    <identifier> direction </identifier>
+    <identifier> direction  defining field 1 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <subroutineDec>
     <keyword> constructor </keyword>
-    <identifier> SquareGame </identifier>
-    <identifier> new </identifier>
+    <identifier> SquareGame className </identifier>
+    <identifier> new className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -27,13 +27,13 @@
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> square </identifier>
+          <identifier> square  using field 0 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
               <identifier> Square </identifier>
               <symbol> . </symbol>
-              <identifier> new </identifier>
+              <identifier> new  defining arg 0 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -61,7 +61,7 @@
         </letStatement>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> direction </identifier>
+          <identifier> direction  using field 1 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -86,7 +86,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> dispose </identifier>
+    <identifier> dispose className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -98,7 +98,7 @@
           <keyword> do </keyword>
           <identifier> square </identifier>
           <symbol> . </symbol>
-          <identifier> dispose </identifier>
+          <identifier> dispose  defining arg 2 </identifier>
           <symbol> ( </symbol>
           <expressionList>
           </expressionList>
@@ -109,7 +109,7 @@
           <keyword> do </keyword>
           <identifier> Memory </identifier>
           <symbol> . </symbol>
-          <identifier> deAlloc </identifier>
+          <identifier> deAlloc  defining arg 3 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -132,7 +132,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> run </identifier>
+    <identifier> run className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -142,19 +142,19 @@
       <varDec>
         <keyword> var </keyword>
         <keyword> char </keyword>
-        <identifier> key </identifier>
+        <identifier> key  defining var 0 </identifier>
         <symbol> ; </symbol>
       </varDec>
       <varDec>
         <keyword> var </keyword>
         <keyword> boolean </keyword>
-        <identifier> exit </identifier>
+        <identifier> exit  defining var 1 </identifier>
         <symbol> ; </symbol>
       </varDec>
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> exit </identifier>
+          <identifier> exit  using var 1 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -194,13 +194,13 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> key </identifier>
+                  <identifier> key  using var 0 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
                       <identifier> Keyboard </identifier>
                       <symbol> . </symbol>
-                      <identifier> keyPressed </identifier>
+                      <identifier> keyPressed  defining var 2 </identifier>
                       <symbol> ( </symbol>
                       <expressionList>
                       </expressionList>
@@ -238,7 +238,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> exit </identifier>
+                  <identifier> exit  using var 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -269,7 +269,7 @@
                   <keyword> do </keyword>
                   <identifier> square </identifier>
                   <symbol> . </symbol>
-                  <identifier> decSize </identifier>
+                  <identifier> decSize  defining var 3 </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -298,7 +298,7 @@
                   <keyword> do </keyword>
                   <identifier> square </identifier>
                   <symbol> . </symbol>
-                  <identifier> incSize </identifier>
+                  <identifier> incSize  defining var 4 </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -325,7 +325,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -354,7 +354,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -383,7 +383,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -412,7 +412,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -450,13 +450,13 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> key </identifier>
+                  <identifier> key  using var 0 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
                       <identifier> Keyboard </identifier>
                       <symbol> . </symbol>
-                      <identifier> keyPressed </identifier>
+                      <identifier> keyPressed  using var 2 </identifier>
                       <symbol> ( </symbol>
                       <expressionList>
                       </expressionList>
@@ -491,7 +491,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> moveSquare </identifier>
+    <identifier> moveSquare className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -518,7 +518,7 @@
               <keyword> do </keyword>
               <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveUp </identifier>
+              <identifier> moveUp  defining arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -547,7 +547,7 @@
               <keyword> do </keyword>
               <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveDown </identifier>
+              <identifier> moveDown  defining arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -576,7 +576,7 @@
               <keyword> do </keyword>
               <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveLeft </identifier>
+              <identifier> moveLeft  defining arg 8 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -605,7 +605,7 @@
               <keyword> do </keyword>
               <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveRight </identifier>
+              <identifier> moveRight  defining arg 9 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -619,7 +619,7 @@
           <keyword> do </keyword>
           <identifier> Sys </identifier>
           <symbol> . </symbol>
-          <identifier> wait </identifier>
+          <identifier> wait  defining arg 10 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>

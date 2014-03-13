@@ -91,12 +91,12 @@ void CompilationEng::compileSubroutine()
 				functionType = m_token;
 
 
-				if(functionType == "method" || functionType == "constructor")
+				if(functionType == "method"  )
 				{
-					symT.define("this","argument","arg");
+					symT.bInClass = false;
+					symT.define("this",className,"arg");
 				}
 
-				if(functionType == "method" || functionType == "function")
 
 				//it's "at" the subroutine, so you can find the subroutine name,they 
 				//doesn't go into symbol table
@@ -161,6 +161,13 @@ void CompilationEng::compileSubroutineBody()
 		writer.writeCall("Memory.alloc",1);
 		writer.writePop("pointer",0); //allocated address-> this
 	}	
+	else if(functionType == "method" )
+	{
+		//push argument 0 to this	
+		writer.writePush("argument",0);
+		writer.writePop("pointer",0);
+	}
+
 	nLocals = 0;
 
 	compileStatements();
@@ -327,7 +334,7 @@ void CompilationEng::compileDo()
 	compileSubroutineCall();
 
 	//pop return value to temp segment according to vm specification
-	writer.writePush("tmep",0);
+	writer.writePop("temp",0);
 
 	printCurrentToken();  //<symbol> ; </symbol>
 	numOfTab--;
@@ -346,9 +353,9 @@ void CompilationEng::compileIf()
 	//compute the condiont and push !(cond)
 	writer.writeArithmetic("neg");
 	string label1("IF_1");
-	label1 += iftag;
+	label1 += std::to_string(iftag);
 	string label2("IF_2");
-	label2 += iftag;
+	label2 += std::to_string(iftag);
 	writer.writeIf(label1);
 	iftag++;
 
@@ -391,9 +398,9 @@ void CompilationEng::compileWhile()
 
 	//start of while
 	string whilelabel1("WHILE_1");
-	whilelabel1 += whiletag;
+	whilelabel1 += std::to_string(whiletag);
 	string whilelabel2("WHILE_2");
-	whilelabel2 += whiletag;
+	whilelabel2 += std::to_string(whiletag);
 	whiletag ++;
 
 	writer.writeLabel(whilelabel1);
@@ -513,12 +520,21 @@ void CompilationEng::compileTerm()
 	{
 		printCurrentToken(false); //<keyword> keyword </keyword>
 		if(m_token == "true")
-			writer.writePush("constant",0);
-		else
 		{
 			writer.writePush("constant",0);
-			writer.writeArithmetic("neg");
+			writer.writeArithmetic("not");
 		}
+		else if(m_token == "false")
+		{
+			writer.writePush("constant",0);
+		}
+		else if(m_token == "this")
+		{
+			writer.writePush("pointer",0);
+		}
+		else
+			perror("unknown keyword");
+	
 	}
 	else if(tokenizer.tokenType() == "stringconst")
 	{
@@ -584,6 +600,7 @@ void CompilationEng::compileTerm()
 
 			//call subroutine
 			writer.writeCall(className+"."+subName,nArgs);
+			nArgs = 1;
 		}
 		else if(m_token == ".") 
 		{
@@ -603,12 +620,13 @@ void CompilationEng::compileTerm()
 			// this pointer
 			if(letleftType == otherClassName)
 			{
-				writer.writeCall(otherClassName+"."+subName,nArgs-1);
+				writer.writeCall(otherClassName+"."+subName,nArgs);
 			}
 			else
 			{
 				writer.writeCall(otherClassName+"."+subName,nArgs);
 			}
+			nArgs =1;
 		}
 
 		//this line seems verbose
@@ -638,15 +656,20 @@ void CompilationEng::compileTerm()
 
 void CompilationEng::compileSubroutineCall()
 {
+	//don't put these into symbol table
+	// it either use a symbol or a classname
+	bType = true;
 	printCurrentToken(); //<id> </id>
+	bType = false;
 	stringStack = m_token;
 
 	getToken();
 	if(m_token == "(")
 	{
 		string subName = stringStack;
+
 		//push this that is the className
-		writePush("this");
+		writer.writePush("pointer",0);
 
 		printCurrentToken(false); //<symbol> ( </symbol>
 		compileExpressionList();
@@ -654,13 +677,24 @@ void CompilationEng::compileSubroutineCall()
 
 		//call this function
 		writer.writeCall(className+"."+subName,nArgs);
+		nArgs = 1;
 	}
 	else if(m_token == ".")
 	{
-		string otherObjectName = stringStack;
-		string otherClassName = symT.typeOf(otherObjectName);
-		//push object address
-		writePush(otherObjectName);
+		string otherClassName;
+		//determine do statement call a function or a method
+		if(symT.contain(stringStack))  //call a method
+		{
+			string otherObjectName = stringStack;
+			otherClassName = symT.typeOf(otherObjectName);
+			//push object address
+			writePush(otherObjectName);
+		}
+		else //a function
+		{
+			otherClassName = stringStack;
+		}
+
 
 		printCurrentToken(false); //<symbol> . </symbol>
 		
@@ -673,6 +707,7 @@ void CompilationEng::compileSubroutineCall()
 
 		//call this function
 		writer.writeCall(otherClassName+"."+subName,nArgs);
+		nArgs = 1;
 	}
 }
 void CompilationEng::compileExpressionList()
@@ -747,18 +782,9 @@ void CompilationEng::printCurrentToken(bool get)
 			}
 			else
 			{
-				string Kind;
-				if(m_idKind == "static")
-					Kind = "static";
-				else if(m_idKind == "field")
-					Kind = "field";
-				else if(m_idKind == "arg")
-					Kind = "arg";
-				else if(m_idKind == "var")
-					Kind = "var";
-				symT.define(m_token,m_idType,Kind);
-				sused = "defining";
 				kind = m_idKind;
+				symT.define(m_token,m_idType,kind);
+				sused = "defining";
 				index = symT.indexOf(m_token);
 			}
 
@@ -860,7 +886,7 @@ void CompilationEng::getToken()
 void CompilationEng::init()
 {
 		m_sOp = {'+','-','/','*','&','|','<','>','='};
-		mapOp = {{"+","add"},{"-","sub"},{"&","and"},{"|","or"},{"<","lt"},{">","gt"},{"=","eq"}};
+		mapOp = {{"+","add"},{"-","sub"},{"&amp;","and"},{"|","or"},{"&lt;","lt"},{"&gt;","gt"},{"=","eq"}};
 		numOfTab = 0;
 		m_bPutback =false;
 		m_bZeroStatements = true;

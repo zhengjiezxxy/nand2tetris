@@ -21,13 +21,14 @@ public:
 	string typeOf(string name);
 	int indexOf(string name);
 	bool contain(string name);
+	void clear(); //clear sunsymT;
 
 public:
 	std::unordered_map<std::string,TABLEITEM> classSymTab;
 	std::unordered_map<std::string,TABLEITEM> subSymTab;
 	bool bInClass; //in the class scope?
-	bool m_ciStatic; //index static  class Scope
-	bool m_ciField;
-	bool m_siArg;
-	bool m_siVar;
+	int m_ciStatic; //index static  class Scope
+	int m_ciField;
+	int m_siArg;
+	int m_siVar;
 };

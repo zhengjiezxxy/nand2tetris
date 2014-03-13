@@ -5,19 +5,19 @@
   <classVarDec>
     <keyword> field </keyword>
     <identifier> Square </identifier>
-    <identifier> square  using field 0 </identifier>
+    <identifier> square  defining field 0 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <classVarDec>
     <keyword> field </keyword>
     <keyword> int </keyword>
-    <identifier> direction  using field 1 </identifier>
+    <identifier> direction  defining field 1 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <subroutineDec>
     <keyword> constructor </keyword>
-    <identifier> SquareGame  using field 1 </identifier>
-    <identifier> new  using field 1 </identifier>
+    <identifier> SquareGame className </identifier>
+    <identifier> new className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -27,13 +27,13 @@
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> square  using arg 0 </identifier>
+          <identifier> square  using field 0 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
               <identifier> Square </identifier>
               <symbol> . </symbol>
-              <identifier> new  using arg 1 </identifier>
+              <identifier> new  defining arg 0 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -61,7 +61,7 @@
         </letStatement>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> direction  using arg 1 </identifier>
+          <identifier> direction  using field 1 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -96,9 +96,9 @@
       <statements>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> square  defining arg 0 </identifier>
+          <identifier> square </identifier>
           <symbol> . </symbol>
-          <identifier> dispose  using arg 1 </identifier>
+          <identifier> dispose  defining arg 2 </identifier>
           <symbol> ( </symbol>
           <expressionList>
           </expressionList>
@@ -107,9 +107,9 @@
         </doStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Memory  using arg 1 </identifier>
+          <identifier> Memory </identifier>
           <symbol> . </symbol>
-          <identifier> deAlloc  using arg 1 </identifier>
+          <identifier> deAlloc  defining arg 3 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -142,19 +142,19 @@
       <varDec>
         <keyword> var </keyword>
         <keyword> char </keyword>
-        <identifier> key  using var 1 </identifier>
+        <identifier> key  defining var 0 </identifier>
         <symbol> ; </symbol>
       </varDec>
       <varDec>
         <keyword> var </keyword>
         <keyword> boolean </keyword>
-        <identifier> exit  using var 1 </identifier>
+        <identifier> exit  defining var 1 </identifier>
         <symbol> ; </symbol>
       </varDec>
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> exit  defining var 1 </identifier>
+          <identifier> exit  using var 1 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -194,13 +194,13 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> key  defining var 1 </identifier>
+                  <identifier> key  using var 0 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
                       <identifier> Keyboard </identifier>
                       <symbol> . </symbol>
-                      <identifier> keyPressed  using var 1 </identifier>
+                      <identifier> keyPressed  defining var 2 </identifier>
                       <symbol> ( </symbol>
                       <expressionList>
                       </expressionList>
@@ -211,7 +211,7 @@
                 </letStatement>
                 <doStatement>
                   <keyword> do </keyword>
-                  <identifier> moveSquare  using var 1 </identifier>
+                  <identifier> moveSquare </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -238,7 +238,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> exit  defining var 1 </identifier>
+                  <identifier> exit  using var 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -267,9 +267,9 @@
               <statements>
                 <doStatement>
                   <keyword> do </keyword>
-                  <identifier> square  defining arg 0 </identifier>
+                  <identifier> square </identifier>
                   <symbol> . </symbol>
-                  <identifier> decSize  using var 1 </identifier>
+                  <identifier> decSize  defining var 3 </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -296,9 +296,9 @@
               <statements>
                 <doStatement>
                   <keyword> do </keyword>
-                  <identifier> square  defining arg 0 </identifier>
+                  <identifier> square </identifier>
                   <symbol> . </symbol>
-                  <identifier> incSize  using var 1 </identifier>
+                  <identifier> incSize  defining var 4 </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -325,7 +325,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction  defining arg 1 </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -354,7 +354,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction  defining arg 1 </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -383,7 +383,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction  defining arg 1 </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -412,7 +412,7 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> direction  defining arg 1 </identifier>
+                  <identifier> direction  using field 1 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
@@ -450,13 +450,13 @@
               <statements>
                 <letStatement>
                   <keyword> let </keyword>
-                  <identifier> key  defining var 1 </identifier>
+                  <identifier> key  using var 0 </identifier>
                   <symbol> = </symbol>
                   <expression>
                     <term>
                       <identifier> Keyboard </identifier>
                       <symbol> . </symbol>
-                      <identifier> keyPressed  defining var 1 </identifier>
+                      <identifier> keyPressed  using var 2 </identifier>
                       <symbol> ( </symbol>
                       <expressionList>
                       </expressionList>
@@ -467,7 +467,7 @@
                 </letStatement>
                 <doStatement>
                   <keyword> do </keyword>
-                  <identifier> moveSquare  defining var 1 </identifier>
+                  <identifier> moveSquare </identifier>
                   <symbol> ( </symbol>
                   <expressionList>
                   </expressionList>
@@ -516,9 +516,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> square  defining arg 0 </identifier>
+              <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveUp  using arg 1 </identifier>
+              <identifier> moveUp  defining arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -545,9 +545,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> square  defining arg 0 </identifier>
+              <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveDown  using arg 1 </identifier>
+              <identifier> moveDown  defining arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -574,9 +574,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> square  defining arg 0 </identifier>
+              <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveLeft  using arg 1 </identifier>
+              <identifier> moveLeft  defining arg 8 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -603,9 +603,9 @@
           <statements>
             <doStatement>
               <keyword> do </keyword>
-              <identifier> square  defining arg 0 </identifier>
+              <identifier> square </identifier>
               <symbol> . </symbol>
-              <identifier> moveRight  using arg 1 </identifier>
+              <identifier> moveRight  defining arg 9 </identifier>
               <symbol> ( </symbol>
               <expressionList>
               </expressionList>
@@ -617,9 +617,9 @@
         </ifStatement>
         <doStatement>
           <keyword> do </keyword>
-          <identifier> Sys  using arg 1 </identifier>
+          <identifier> Sys </identifier>
           <symbol> . </symbol>
-          <identifier> wait  using arg 1 </identifier>
+          <identifier> wait  defining arg 10 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>

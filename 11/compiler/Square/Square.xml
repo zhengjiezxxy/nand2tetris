@@ -1,35 +1,35 @@
 <class>
   <keyword> class </keyword>
-  <identifier> Square </identifier>
+  <identifier> Square className </identifier>
   <symbol> { </symbol>
   <classVarDec>
     <keyword> field </keyword>
     <keyword> int </keyword>
-    <identifier> x </identifier>
+    <identifier> x  defining field 0 </identifier>
     <symbol> , </symbol>
-    <identifier> y </identifier>
+    <identifier> y  defining field 1 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <classVarDec>
     <keyword> field </keyword>
     <keyword> int </keyword>
-    <identifier> size </identifier>
+    <identifier> size  defining field 2 </identifier>
     <symbol> ; </symbol>
   </classVarDec>
   <subroutineDec>
     <keyword> constructor </keyword>
-    <identifier> Square </identifier>
-    <identifier> new </identifier>
+    <identifier> Square className </identifier>
+    <identifier> new className </identifier>
     <symbol> ( </symbol>
     <parameterList>
       <keyword> int </keyword>
-      <identifier> Ax </identifier>
+      <identifier> Ax  defining arg 0 </identifier>
       <symbol> , </symbol>
       <keyword> int </keyword>
-      <identifier> Ay </identifier>
+      <identifier> Ay  defining arg 1 </identifier>
       <symbol> , </symbol>
       <keyword> int </keyword>
-      <identifier> Asize </identifier>
+      <identifier> Asize  defining arg 2 </identifier>
     </parameterList>
     <symbol> ) </symbol>
     <subroutineBody>
@@ -37,7 +37,7 @@
       <statements>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> x </identifier>
+          <identifier> x  using field 0 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -48,7 +48,7 @@
         </letStatement>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> y </identifier>
+          <identifier> y  using field 1 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -59,7 +59,7 @@
         </letStatement>
         <letStatement>
           <keyword> let </keyword>
-          <identifier> size </identifier>
+          <identifier> size  using field 2 </identifier>
           <symbol> = </symbol>
           <expression>
             <term>
@@ -93,7 +93,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> dispose </identifier>
+    <identifier> dispose className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -105,7 +105,7 @@
           <keyword> do </keyword>
           <identifier> Memory </identifier>
           <symbol> . </symbol>
-          <identifier> deAlloc </identifier>
+          <identifier> deAlloc  defining arg 4 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -128,7 +128,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> draw </identifier>
+    <identifier> draw className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -140,7 +140,7 @@
           <keyword> do </keyword>
           <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> setColor </identifier>
+          <identifier> setColor  defining arg 6 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -156,7 +156,7 @@
           <keyword> do </keyword>
           <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> drawRectangle </identifier>
+          <identifier> drawRectangle  defining arg 7 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -205,7 +205,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> erase </identifier>
+    <identifier> erase className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -217,7 +217,7 @@
           <keyword> do </keyword>
           <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> setColor </identifier>
+          <identifier> setColor  using arg 6 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -233,7 +233,7 @@
           <keyword> do </keyword>
           <identifier> Screen </identifier>
           <symbol> . </symbol>
-          <identifier> drawRectangle </identifier>
+          <identifier> drawRectangle  using arg 7 </identifier>
           <symbol> ( </symbol>
           <expressionList>
             <expression>
@@ -282,7 +282,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> incSize </identifier>
+    <identifier> incSize className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -356,7 +356,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> size </identifier>
+              <identifier> size  using field 2 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -392,7 +392,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> decSize </identifier>
+    <identifier> decSize className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -426,7 +426,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> size </identifier>
+              <identifier> size  using field 2 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -462,7 +462,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> moveUp </identifier>
+    <identifier> moveUp className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -489,7 +489,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -505,7 +505,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -559,7 +559,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> y </identifier>
+              <identifier> y  using field 1 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -576,7 +576,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -592,7 +592,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -644,7 +644,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> moveDown </identifier>
+    <identifier> moveDown className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -681,7 +681,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -697,7 +697,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -737,7 +737,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> y </identifier>
+              <identifier> y  using field 1 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -754,7 +754,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -770,7 +770,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -836,7 +836,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> moveLeft </identifier>
+    <identifier> moveLeft className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -863,7 +863,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -879,7 +879,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -933,7 +933,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> x </identifier>
+              <identifier> x  using field 0 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -950,7 +950,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -966,7 +966,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1018,7 +1018,7 @@
   <subroutineDec>
     <keyword> method </keyword>
     <keyword> void </keyword>
-    <identifier> moveRight </identifier>
+    <identifier> moveRight className </identifier>
     <symbol> ( </symbol>
     <parameterList>
     </parameterList>
@@ -1055,7 +1055,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1071,7 +1071,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1111,7 +1111,7 @@
             </doStatement>
             <letStatement>
               <keyword> let </keyword>
-              <identifier> x </identifier>
+              <identifier> x  using field 0 </identifier>
               <symbol> = </symbol>
               <expression>
                 <term>
@@ -1128,7 +1128,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> setColor </identifier>
+              <identifier> setColor  using arg 6 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
@@ -1144,7 +1144,7 @@
               <keyword> do </keyword>
               <identifier> Screen </identifier>
               <symbol> . </symbol>
-              <identifier> drawRectangle </identifier>
+              <identifier> drawRectangle  using arg 7 </identifier>
               <symbol> ( </symbol>
               <expressionList>
                 <expression>
