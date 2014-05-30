@@ -18,10 +18,10 @@ class CodeWriter
 {
 
 public:
-	CodeWriter();
-	~CodeWriter();
+  CodeWriter();
+  ~CodeWriter();
 
-	void WriteCom(trivec tvec);
+  void WriteCom(trivec tvec);
   //push num to stack ,excluding get the num
   void PushToStack();
   //get value from stack *(sp-1) not change *(SP)
@@ -36,8 +36,8 @@ public:
 
 
 public:
-	string m_sCom; //command 
-	string m_sArg1; //argument 1
+  string m_sCom; //command 
+  string m_sArg1; //argument 1
   string m_sArg2; //argument 2
   string className; //className
   ofstream m_ofs;   // output stream
